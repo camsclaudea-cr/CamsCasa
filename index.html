@@ -96,7 +96,7 @@ h1{
   color:var(--ambar);border:1px solid currentColor;border-radius:99px;padding:3px 6px;
 }
 .t{
-  display:grid;grid-template-columns:1fr 18px;gap:12px;align-items:baseline;
+  display:grid;grid-template-columns:1fr 20px;gap:12px;align-items:center;
   width:100%;text-align:left;font:inherit;color:var(--blanco);cursor:pointer;
   background:var(--carta);border:1px solid var(--borde);border-radius:15px;
   padding:14px 15px 14px 19px;margin-bottom:9px;
@@ -105,13 +105,36 @@ h1{
 .t:active{transform:scale(.985)}
 .t .n{font-weight:500;font-size:16.5px;letter-spacing:-.01em}
 .t .v{font:700 13px/1 "Inter",sans-serif;color:var(--hecho);opacity:0;justify-self:end}
+.t .v.col{
+  opacity:1;width:20px;height:20px;border-radius:50%;color:#101728;
+  font:800 11px/20px "Inter",sans-serif;text-align:center;
+}
+.c0{background:var(--verde)} .c1{background:var(--morado)} .c2{background:var(--azul)}
+
+#colabora{position:fixed;inset:0;z-index:55;display:none;align-items:flex-end;background:rgba(6,10,22,.72)}
+#colabora.ver{display:flex}
+#colabora .caja{
+  width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:22px 20px 26px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+#colabora h3{font:600 15px/1.3 "Inter",sans-serif;margin:0 0 4px;color:var(--blanco)}
+#colabora p{font:500 12px/1.3 "Inter",sans-serif;color:var(--tenue);margin:0 0 18px}
+#colabora .op{
+  display:flex;align-items:center;gap:11px;width:100%;margin-bottom:8px;padding:13px 15px;
+  border-radius:13px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);
+  color:var(--blanco);font:600 15px "Inter",sans-serif;cursor:pointer;text-align:left;
+}
+#colabora .op b{width:22px;height:22px;border-radius:50%;color:#101728;font:800 12px/22px "Inter",sans-serif;text-align:center}
+#colabora .op i{margin-left:auto;font-style:normal;font:500 11px "Inter",sans-serif;color:var(--tenue)}
+#colabora .no{width:100%;margin-top:6px;padding:12px;border:none;background:none;color:var(--tenue);font:500 13px "Inter",sans-serif;cursor:pointer}
 /* fondo sólido: el color no puede depender del degradado que pase por detrás */
 .p0{background:#1B3B2F;border-color:#27503F;box-shadow:inset 4px 0 0 var(--verde)}
 .p1{background:#312350;border-color:#443266;box-shadow:inset 4px 0 0 var(--morado)}
 .p2{background:#1D3350;border-color:#2A4569;box-shadow:inset 4px 0 0 var(--azul)}
 .t.sigue{border:1.5px solid rgba(255,255,255,.85);padding:13.5px 15px}
-.t.ok{background:#181C2B;border-color:rgba(255,255,255,.05);box-shadow:none;opacity:.55}
-.t.ok .n{text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--suave)}
+/* Hecha: se apaga el fondo pero la franja se queda, para saber de quién era. */
+.t.ok{background:#181C2B;border-color:rgba(255,255,255,.05)}
+.t.ok .n{color:var(--tenue);text-decoration:line-through;text-decoration-thickness:1.5px}
 .t.ok .v{opacity:1}
 .vacio{color:var(--tenue)}
 #acceso{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;justify-content:center;
@@ -215,6 +238,14 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="colabora">
+  <div class="caja">
+    <h3 id="qtarea"></h3>
+    <p>Quién la ha hecho o ha colaborado</p>
+    <div id="qopciones"></div>
+    <button class="no" id="qcancel">Cancelar</button>
+  </div>
+</div>
 <div id="acceso">
   <h2>hoy en casa</h2>
   <input id="correo" type="email" inputmode="email" autocomplete="username" placeholder="Correo">
@@ -301,32 +332,60 @@ let semana=false;
 const SB=supabase.createClient(
   "https://bvembbhfvcboowusdgkc.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2ZW1iYmhmdmNib293dXNkZ2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MDAzODMsImV4cCI6MjEwMjk3NjM4M30.L0vxmVcU4rPDwkZshxuxzvsoCFhHg2vVNozJj5oby5E");
-let yo=null;
+let yo=null, yoIdx=-1;
 
 async function cargar(){
-  const {data,error}=await SB.from("marcas").select("tarea").eq("semana",lunes);
+  const {data,error}=await SB.from("marcas").select("tarea,por,asignado").eq("semana",lunes);
   if(error){console.warn(error);return;}
-  hechas={}; data.forEach(m=>hechas[m.tarea]=1);
+  hechas={}; data.forEach(m=>hechas[m.tarea]=m.por||true);
 }
 
 // Cada marca es su propia fila: dos móviles a la vez no se pisan.
-async function marcar(id,poner){
-  poner ? hechas[id]=1 : delete hechas[id];
+async function marcar(id,poner,porQuien,aQuien){
+  const antes=hechas[id];
+  poner ? hechas[id]=(porQuien||true) : delete hechas[id];
   pintar();
   const r = poner
-    ? await SB.from("marcas").insert({semana:lunes,tarea:id,por:yo?yo.nombre:null})
+    ? await SB.from("marcas").insert({semana:lunes,tarea:id,por:porQuien||null,asignado:aQuien||null})
     : await SB.from("marcas").delete().eq("semana",lunes).eq("tarea",id);
-  if(r.error){ poner ? delete hechas[id] : hechas[id]=1; pintar(); }
+  if(r.error){ antes===undefined ? delete hechas[id] : hechas[id]=antes; pintar(); }
+}
+
+// Si la tarea no es tuya, preguntamos quién la ha hecho. Si es tuya, directo.
+function pulsar(t){
+  const id=t[4];
+  if(hechas[id]) return marcar(id,false);
+  const suya=persona(t);
+  if(yoIdx===suya) return marcar(id,true,NOMBRES[suya],NOMBRES[suya]);
+  const caja=document.getElementById("colabora");
+  document.getElementById("qtarea").textContent=t[1];
+  const ops=document.getElementById("qopciones"); ops.innerHTML="";
+  const orden=[suya,...[0,1,2].filter(i=>i!==suya)];
+  orden.forEach(i=>{
+    const b=document.createElement("button");
+    b.className="op";
+    b.innerHTML='<b class="c'+i+'">'+NOMBRES[i][0].toUpperCase()+"</b>"+NOMBRES[i]+
+      (i===suya?'<i>le tocaba</i>':'<i>colabora</i>');
+    b.onclick=()=>{caja.classList.remove("ver");marcar(id,true,NOMBRES[i],NOMBRES[suya]);};
+    ops.appendChild(b);
+  });
+  caja.classList.add("ver");
 }
 
 // Lo que marca otro aparece aquí solo.
+// Red de seguridad: los móviles cortan el websocket al irse a segundo plano,
+// así que al volver y cada 30 s se vuelve a preguntar.
+function refrescar(){ if(document.visibilityState==="visible") cargar().then(pintar); }
+document.addEventListener("visibilitychange",refrescar);
+setInterval(refrescar,30000);
+
 function escuchar(){
   SB.channel("marcas").on("postgres_changes",
     {event:"*",schema:"public",table:"marcas"},
     ({eventType,new:n,old:v})=>{
       const m=(n&&n.semana===lunes)?n:((v&&v.semana===lunes)?v:null);
       if(!m) return;
-      eventType==="DELETE" ? delete hechas[m.tarea] : hechas[m.tarea]=1;
+      eventType==="DELETE" ? delete hechas[m.tarea] : hechas[m.tarea]=(m.por||true);
       pintar();
     }).subscribe();
 }
@@ -334,8 +393,12 @@ function escuchar(){
 function tarjeta(t,c,sigue){
   const b=document.createElement("button");
   b.className="t p"+persona(t)+(hechas[t[4]]?" ok":(t[4]===sigue?" sigue":""));
-  b.innerHTML='<span class="n">'+t[1]+'</span><span class="v">✓</span>';
-  b.onclick=()=>marcar(t[4],!hechas[t[4]]);
+  const v=hechas[t[4]], suyo=NOMBRES[persona(t)];
+  const otro=(typeof v==="string" && v!==suyo) ? NOMBRES.indexOf(v) : -1;
+  b.innerHTML='<span class="n">'+t[1]+"</span>"+
+    (otro>=0 ? '<span class="v col c'+otro+'">'+NOMBRES[otro][0].toUpperCase()+"</span>"
+             : '<span class="v">✓</span>');
+  b.onclick=()=>pulsar(t);
   c.appendChild(b);
 }
 function cabecera(c,txt,extra,hechas_,total,alPulsar){
@@ -467,6 +530,10 @@ document.getElementById("vista").onclick=()=>{semana=!semana;pintar();window.scr
 const previa=document.getElementById("previa");
 document.getElementById("imprimir").onclick=()=>{previa.classList.add("ver");pintarHoja();};
 document.getElementById("cerrarPrevia").onclick=()=>previa.classList.remove("ver");
+document.getElementById("qcancel").onclick=()=>document.getElementById("colabora").classList.remove("ver");
+document.getElementById("colabora").onclick=(e)=>{
+  if(e.target.id==="colabora") e.target.classList.remove("ver");
+};
 document.getElementById("lanzar").onclick=()=>window.print();
 addEventListener("resize",()=>{if(previa.classList.contains("ver"))pintarHoja();});
 document.getElementById("giro").innerHTML=
@@ -491,7 +558,7 @@ SB.auth.onAuthStateChange(async(_e,sesion)=>{
   const {data}=await SB.from("perfiles").select("nombre,persona").eq("id",sesion.user.id).single();
   if(data){
     yo=data;
-    const mio=NOMBRES.indexOf(data.nombre);
+    const mio=NOMBRES.indexOf(data.nombre); yoIdx=mio;
     if(mio>=0){
       if(quien===-1) quien=mio;                       // sin filtro guardado: el tuyo
       const col=["var(--verde)","var(--morado)","var(--azul)"][mio];
