@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --verde:#3DD68C; --morado:#A77BFF; --azul:#4A9EFF; --ambar:#FFC44D;
@@ -28,7 +29,17 @@ body{
   overflow-x:hidden;
 }
 .marco{max-width:520px;margin:0 auto;padding:28px 18px 60px;touch-action:pan-y}
+.quien{
+  display:flex;align-items:center;justify-content:flex-end;gap:7px;
+  font:600 12px/1 "Inter",sans-serif;color:var(--suave);margin-bottom:14px;
+}
+.quien b{width:8px;height:8px;border-radius:50%;display:inline-block}
+.quien i{font-style:normal;color:var(--tenue);font-weight:500}
 .cab{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.fecha{
+  font:700 11px/1 "JetBrains Mono",monospace;color:var(--tenue);
+  letter-spacing:.06em;margin:10px 0 0;
+}
 h1{
   font:800 34px/1 "Bricolage Grotesque","Inter",sans-serif;letter-spacing:-.03em;
   margin:0;text-transform:lowercase;cursor:pointer;
@@ -103,6 +114,85 @@ h1{
 .t.ok .n{text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--suave)}
 .t.ok .v{opacity:1}
 .vacio{color:var(--tenue)}
+#acceso{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;justify-content:center;
+  padding:32px 26px;background:#131A33;
+  background-image:linear-gradient(178deg,#4A2570 0%,#332661 30%,#1E2550 65%,#0D1428 100%);}
+#acceso.ver{display:flex}
+#acceso h2{font:800 30px/1 "Bricolage Grotesque","Inter",sans-serif;letter-spacing:-.03em;margin:0 0 26px;text-transform:lowercase}
+#acceso input{width:100%;margin-bottom:10px;padding:14px 16px;border-radius:13px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  color:var(--blanco);font:500 16px "Inter",sans-serif}
+#acceso input:focus{outline:none;border-color:rgba(255,255,255,.5)}
+#acceso button{width:100%;margin-top:8px;padding:15px;border:none;border-radius:13px;
+  background:var(--azul);color:#0D1428;font:700 16px "Inter",sans-serif;cursor:pointer}
+#fallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
+#imprimir{
+  display:none;width:100%;margin:26px 0 0;padding:14px;border-radius:13px;
+  border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--suave);
+  font:600 14px "Inter",sans-serif;cursor:pointer;
+}
+#imprimir.ver{display:block}
+#imprimir:hover{color:var(--blanco);border-color:rgba(255,255,255,.45)}
+
+#previa{position:fixed;inset:0;z-index:60;background:#0B0F1E;display:none;flex-direction:column}
+#previa.ver{display:flex}
+#previa .barra{
+  display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1);flex:0 0 auto;
+}
+#previa .barra span{font:600 13px "Inter",sans-serif;color:var(--suave)}
+#previa .barra button{
+  padding:9px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
+  background:transparent;color:var(--suave);font:600 13px "Inter",sans-serif;cursor:pointer;
+}
+#previa .barra button.ok{background:var(--azul);border-color:var(--azul);color:#0D1428}
+#lienzo{flex:1;overflow:auto;padding:16px}
+
+#hoja{
+  width:1050px;background:#fff;color:#111;padding:14px 16px;
+  transform-origin:top left;font-family:"Inter",system-ui,sans-serif;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+#hoja .tit{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px}
+#hoja h1{font:800 26px/1 "Bricolage Grotesque","Inter",sans-serif;margin:0;text-transform:lowercase;letter-spacing:-.02em;color:#111}
+#hoja .tit em{font-style:normal;font:600 13px "Inter",sans-serif;color:#777}
+#hoja .clave{display:flex;gap:12px;margin-left:auto}
+#hoja .clave span{display:flex;align-items:center;gap:5px;font:700 15px/1 "Inter",sans-serif}
+#hoja .clave i{width:16px;height:16px;border-radius:3px;display:inline-block;color:#fff;font:800 11px/16px "Inter",sans-serif;text-align:center}
+
+#hoja .rejilla{display:grid;grid-template-columns:repeat(7,1fr);gap:0 5px;align-items:start}
+#hoja .dia{
+  font:700 15px/1.1 "Inter",sans-serif;text-transform:uppercase;letter-spacing:.05em;
+  padding:0 0 5px;border-bottom:2px solid #333;
+}
+#hoja .banda{
+  grid-column:1/-1;font:800 13px/1 "Inter",sans-serif;text-transform:uppercase;letter-spacing:.16em;
+  color:#111;margin:9px 0 5px;padding:4px 0 4px 6px;background:#ECEFEC;border-left:4px solid #333;
+}
+#hoja .caja{min-height:4px}
+#hoja .l{
+  display:flex;gap:5px;align-items:flex-start;
+  font:400 15px/1.2 "Inter",sans-serif;margin:0 0 2px;padding:2px 5px 2px 3px;
+  border-radius:3px;border-left:4px solid;
+}
+#hoja .l b{
+  flex:0 0 auto;width:16px;height:16px;border-radius:3px;color:#fff;
+  font:800 11px/16px "Inter",sans-serif;text-align:center;
+}
+#hoja .h0{background:#EAF5EE;border-color:#137344} #hoja .h0 b{background:#137344}
+#hoja .h1{background:#F2E9FD;border-color:#6B3BC9} #hoja .h1 b{background:#6B3BC9}
+#hoja .h2{background:#DFE9F6;border-color:#134A8E} #hoja .h2 b{background:#134A8E}
+#hoja .pie{margin-top:10px;font:400 11px/1.3 "Inter",sans-serif;color:#777}
+@page{size:A4 landscape;margin:9mm}
+@media print{
+  body{background:#fff}
+  .marco,#acceso,#previa .barra{display:none!important}
+  #previa{position:static;display:block;background:#fff}
+  #lienzo{overflow:visible;padding:0}
+  #hoja{width:100%;transform:none!important;padding:0}
+}
+#salir{margin-top:18px;background:none;border:none;color:var(--tenue);
+  font:500 12px "Inter",sans-serif;cursor:pointer;padding:0;text-decoration:underline}
 .regla{
   margin:30px 0 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);
   font:400 13px/1.5 "Inter",sans-serif;color:var(--tenue);
@@ -115,11 +205,31 @@ h1{
 </style>
 </head>
 <body>
-<div class="marco" id="marco">
+<div id="previa">
+  <div class="barra">
+    <span>Vista previa · horizontal</span>
+    <span>
+      <button id="cerrarPrevia">Cerrar</button>
+      <button class="ok" id="lanzar">Imprimir</button>
+    </span>
+  </div>
+  <div id="lienzo"><div id="hoja"></div></div>
+</div>
+<div id="acceso">
+  <h2>hoy en casa</h2>
+  <input id="correo" type="email" inputmode="email" autocomplete="username" placeholder="Correo">
+  <input id="clave" type="password" autocomplete="current-password" placeholder="Contraseña">
+  <button id="entrar">Entrar</button>
+  <p id="fallo"></p>
+</div>
+<div class="marco" id="marco" hidden>
+  <div class="quien" id="yo"></div>
   <div class="cab"><h1 id="dia"></h1><div class="brujula" id="brujula"></div></div>
+  <p class="fecha" id="fecha"></p>
   <p class="sub"><span id="cuenta"></span><span class="hoy-etq" id="etqHoy" hidden>hoy</span><button class="vista" id="vista">Semana</button></p>
   <div class="filtros" id="filtros"></div>
   <div id="lista"></div>
+  <button id="imprimir">Imprimir para la nevera</button>
   <div class="regla"><p id="giro"></p><p>El lavavajillas lo pone quien lo vea lleno. Vaciarlo sí tiene dueño cada día.</p><p>Quien pone la lavadora está pendiente de cuándo acaba y la tiende. Al recogerla se dobla, y cada uno guarda lo suyo.</p></div>
 </div>
 <script>
@@ -146,17 +256,17 @@ const T=[
  [1,"Preparar cena","7 PM",19],[2,"Cargar lavavajillas (cena)","",19.75],[1,"Limpieza cocina","noche",20.25],
  null,
  [0,"Preparar desayuno","7 AM",7],[1,"Cargar lavavajillas (desayuno)","",9.5],[1,"Descargar lavavajillas","",-1],
- [1,"Preparar comida","2 PM",14],[0,"Cargar lavavajillas (comida)","",14.75],[2,"Supermercado + ayudante","tarde",17],[2,"Preparar cena","7 PM",19],
+ [1,"Preparar comida","2 PM",14],[0,"Cargar lavavajillas (comida)","",14.75],[2,"Preparar cena","7 PM",19],
  [0,"Cargar lavavajillas (cena)","",19.75],[1,"Sacar basuras","",20.5],[2,"Limpieza cocina","noche",20.25],
  null,
  [2,"Preparar desayuno","9 AM",9],[0,"Descargar lavavajillas","",-1],[0,"Cargar lavavajillas (desayuno)","",9.75],
  [0,"Baños completos","antes 2 PM",10.5],[1,"Salón y Pasillos","antes 2 PM",11],
- [2,"Cocina y Terracilla","antes 2 PM",11.5],
- [0,"Preparar comida","2:30 PM",14.5],[2,"Cargar lavavajillas (comida)","",15.25],
+ [2,"Cocina y Terracilla","antes 2 PM",11.5],[2,"Supermercado + ayudante","mañana",10],
+ [0,"Preparar comida","2:30 PM",14.5],[1,"Cargar lavavajillas (comida)","",15.25],
  [1,"Preparar cena","7 PM",19],[2,"Cargar lavavajillas (cena)","",19.75],[1,"Limpieza cocina","noche",20.25],
  null,
- [2,"Preparar desayuno","10 AM",10],[1,"Descargar lavavajillas","",-1],[1,"Cargar lavavajillas (desayuno)","",10.5],
- [2,"Lavadora","",11],[0,"Tarea rotatoria","3 PM · 1 h",15],
+ [2,"Preparar desayuno","10 AM",10],[2,"Descargar lavavajillas","",-1],[1,"Cargar lavavajillas (desayuno)","",10.5],
+ [2,"Lavadora","",11],[1,"Preparar comida","2 PM",14],[0,"Cargar lavavajillas (comida)","",14.75],[0,"Tarea rotatoria","3 PM · 1 h",15],
  [1,"Tarea rotatoria","3 PM · 1 h",15.05],
  [0,"Preparar cena","6 PM",18],[2,"Cargar lavavajillas (cena)","",19],[0,"Limpieza cocina","noche",20.25]
 ];
@@ -165,39 +275,67 @@ DATOS.forEach((d,i)=>d.forEach((t,j)=>t.push(i+"-"+j)));
 
 const hoy=(new Date().getDay()+6)%7;
 let dia=hoy;
-const lunes=(()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-hoy);return d.toISOString().slice(0,10);})();
+// En España (UTC+2) toISOString() de la medianoche local devuelve el día anterior.
+// Hay que componer la fecha con los valores locales, no convertir a UTC.
+const iso=(d)=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const lunes=(()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-hoy);return iso(d);})();
 const CLAVE="casa:"+lunes;
 // Los perfiles (los tres repartos de tareas) rotan entre las personas cada 2 semanas.
 const ORIGEN=Date.UTC(2026,7,17);                       // lunes de referencia
 const semanas=Math.floor((Date.parse(lunes)-ORIGEN)/6048e5);
 const turno=((Math.floor(semanas/2)%3)+3)%3;
 const persona=(t)=>(t[0]+turno)%3;
+function fechaDe(i){
+  const d=new Date(Date.parse(lunes)+i*864e5);
+  return d.toLocaleDateString("es",{day:"numeric",month:"long",year:"numeric"});
+}
 function proximoGiro(){
   const d=new Date(ORIGEN+(Math.floor(semanas/2)+1)*2*6048e5);
   return d.toLocaleDateString("es",{day:"numeric",month:"long"});
 }
 let hechas={};
 let quien=-1;
+try{const f=localStorage.getItem("casa:quien"); if(f!==null) quien=+f;}catch(e){}
 let semana=false;
 
-// Almacenamiento local del móvil. En el paso siguiente esto pasa a Supabase
-// y es lo único que hay que cambiar para que se sincronice entre los tres.
-const almacen={
-  get:(k)=>{try{return localStorage.getItem(k);}catch(e){return null;}},
-  set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}}
-};
+const SB=supabase.createClient(
+  "https://bvembbhfvcboowusdgkc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2ZW1iYmhmdmNib293dXNkZ2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MDAzODMsImV4cCI6MjEwMjk3NjM4M30.L0vxmVcU4rPDwkZshxuxzvsoCFhHg2vVNozJj5oby5E");
+let yo=null;
+
 async function cargar(){
-  const r=almacen.get(CLAVE); if(r) try{hechas=JSON.parse(r);}catch(e){}
-  const f=almacen.get("casa:quien"); if(f!==null) quien=+f;
+  const {data,error}=await SB.from("marcas").select("tarea").eq("semana",lunes);
+  if(error){console.warn(error);return;}
+  hechas={}; data.forEach(m=>hechas[m.tarea]=1);
 }
-let esperando;
-function guardar(){clearTimeout(esperando);esperando=setTimeout(()=>almacen.set(CLAVE,JSON.stringify(hechas)),200);}
+
+// Cada marca es su propia fila: dos móviles a la vez no se pisan.
+async function marcar(id,poner){
+  poner ? hechas[id]=1 : delete hechas[id];
+  pintar();
+  const r = poner
+    ? await SB.from("marcas").insert({semana:lunes,tarea:id,por:yo?yo.nombre:null})
+    : await SB.from("marcas").delete().eq("semana",lunes).eq("tarea",id);
+  if(r.error){ poner ? delete hechas[id] : hechas[id]=1; pintar(); }
+}
+
+// Lo que marca otro aparece aquí solo.
+function escuchar(){
+  SB.channel("marcas").on("postgres_changes",
+    {event:"*",schema:"public",table:"marcas"},
+    ({eventType,new:n,old:v})=>{
+      const m=(n&&n.semana===lunes)?n:((v&&v.semana===lunes)?v:null);
+      if(!m) return;
+      eventType==="DELETE" ? delete hechas[m.tarea] : hechas[m.tarea]=1;
+      pintar();
+    }).subscribe();
+}
 
 function tarjeta(t,c,sigue){
   const b=document.createElement("button");
   b.className="t p"+persona(t)+(hechas[t[4]]?" ok":(t[4]===sigue?" sigue":""));
   b.innerHTML='<span class="n">'+t[1]+'</span><span class="v">✓</span>';
-  b.onclick=()=>{hechas[t[4]]?delete hechas[t[4]]:hechas[t[4]]=1;guardar();pintar();};
+  b.onclick=()=>marcar(t[4],!hechas[t[4]]);
   c.appendChild(b);
 }
 function cabecera(c,txt,extra,hechas_,total,alPulsar){
@@ -209,6 +347,36 @@ function cabecera(c,txt,extra,hechas_,total,alPulsar){
   c.appendChild(cab);
 }
 
+function pintarHoja(){
+  const COL=["#137344","#6B3BC9","#134A8E"], ini=(i)=>NOMBRES[i][0].toUpperCase();
+  let h='<div class="tit"><h1>turnos de casa</h1><em>'+fechaDe(0)+" — "+fechaDe(6)+
+        " · turno "+(turno+1)+' de 3</em><span class="clave">'+
+        NOMBRES.map((n,i)=>'<span><i style="background:'+COL[i]+'">'+ini(i)+"</i>"+n+"</span>").join("")+
+        '</span></div><div class="rejilla">';
+
+  DIAS.forEach(d=>{ h+='<div class="dia">'+d.slice(0,3)+"</div>"; });
+
+  // Una banda por bloque, cruzando los siete días: así Mañana, Mediodía
+  // y Noche quedan a la misma altura en todas las columnas.
+  BLOQUES.forEach((nom,bi)=>{
+    const fila=DIAS.map((_,i)=>DATOS[i].filter(t=>bloque(t[3])===bi).sort((a,b)=>a[3]-b[3]));
+    if(!fila.some(g=>g.length)) return;
+    h+='<div class="banda">'+nom+"</div>";
+    fila.forEach(g=>{
+      h+='<div class="caja">'+g.map(t=>
+        '<div class="l h'+persona(t)+'"><b>'+ini(persona(t))+"</b><span>"+t[1]+"</span></div>"
+      ).join("")+"</div>";
+    });
+  });
+
+  h+='</div><p class="pie">El lavavajillas lo pone quien lo vea lleno; vaciarlo tiene dueño cada día. '+
+     "Quien pone la lavadora la tiende, y al recogerla se dobla. "+
+     "Los perfiles rotan el lunes "+proximoGiro()+".</p>";
+  document.getElementById("hoja").innerHTML=h;
+  const l=document.getElementById("lienzo");
+  document.getElementById("hoja").style.transform="scale("+Math.min(1,(l.clientWidth-4)/1050)+")";
+}
+
 function pintar(anim){
   const fs=document.getElementById("filtros"); fs.innerHTML="";
   [[-1,"Todos"],[0,NOMBRES[0]],[1,NOMBRES[1]],[2,NOMBRES[2]]].forEach(([i,txt])=>{
@@ -216,10 +384,11 @@ function pintar(anim){
     b.className="q"+(i>=0?" f"+i:"");
     b.setAttribute("aria-pressed",i===quien);
     b.innerHTML="<span>"+txt+"</span>";
-    b.onclick=()=>{quien=i;almacen.set("casa:quien",String(i));pintar();};
+    b.onclick=()=>{quien=i;try{localStorage.setItem("casa:quien",String(i));}catch(e){}pintar();};
     fs.appendChild(b);
   });
   document.getElementById("vista").textContent = semana ? "Día" : "Semana";
+  document.getElementById("imprimir").classList.toggle("ver",semana);
   document.getElementById("brujula").hidden = semana;
   const c=document.getElementById("lista");
   c.className=(semana?"compacto":"")+(anim?" "+anim:"");
@@ -231,6 +400,7 @@ function pintar(anim){
 function pintarSemana(c){
   const todo=DATOS.flat().filter(t=>quien<0||persona(t)===quien);
   document.getElementById("dia").textContent="semana";
+  document.getElementById("fecha").textContent=fechaDe(0)+" — "+fechaDe(6);
   document.getElementById("cuenta").textContent=
     todo.filter(t=>hechas[t[4]]).length+" de "+todo.length+" listas";
   document.getElementById("etqHoy").hidden=true;
@@ -247,6 +417,7 @@ function pintarSemana(c){
 function pintarDia(c){
   const lista=DATOS[dia].filter(t=>quien<0||persona(t)===quien).sort((a,b)=>a[3]-b[3]);
   document.getElementById("dia").textContent=DIAS[dia];
+  document.getElementById("fecha").textContent=fechaDe(dia);
   document.getElementById("cuenta").textContent=
     lista.filter(t=>hechas[t[4]]).length+" de "+lista.length+" listas";
   document.getElementById("etqHoy").hidden=dia!==hoy;
@@ -293,10 +464,45 @@ document.addEventListener("keydown",e=>{
 document.getElementById("dia").onclick=()=>{if(semana){semana=false;pintar();return;}if(dia!==hoy){const p=((hoy-dia+7)%7)<4?1:-1;dia=hoy;pintar(p>0?"entra-der":"entra-izq");}};
 
 document.getElementById("vista").onclick=()=>{semana=!semana;pintar();window.scrollTo(0,0);};
+const previa=document.getElementById("previa");
+document.getElementById("imprimir").onclick=()=>{previa.classList.add("ver");pintarHoja();};
+document.getElementById("cerrarPrevia").onclick=()=>previa.classList.remove("ver");
+document.getElementById("lanzar").onclick=()=>window.print();
+addEventListener("resize",()=>{if(previa.classList.contains("ver"))pintarHoja();});
 document.getElementById("giro").innerHTML=
   "Turno <b>"+(turno+1)+" de 3</b>. Los perfiles rotan el lunes "+proximoGiro()+": "+
   NOMBRES.map((n,i)=>n+" → "+NOMBRES[(i+1)%3]).join(", ")+".";
-(async()=>{await cargar();pintar();})();
+
+const pantalla=document.getElementById("acceso"), marco=document.getElementById("marco");
+document.getElementById("entrar").onclick=async()=>{
+  const f=document.getElementById("fallo"); f.textContent="Entrando…";
+  const {error}=await SB.auth.signInWithPassword({
+    email:document.getElementById("correo").value.trim(),
+    password:document.getElementById("clave").value});
+  f.textContent = error ? error.message : "";
+};
+document.getElementById("clave").addEventListener("keydown",e=>{
+  if(e.key==="Enter") document.getElementById("entrar").click();});
+
+
+SB.auth.onAuthStateChange(async(_e,sesion)=>{
+  if(!sesion){pantalla.classList.add("ver");marco.hidden=true;return;}
+  pantalla.classList.remove("ver"); marco.hidden=false;
+  const {data}=await SB.from("perfiles").select("nombre,persona").eq("id",sesion.user.id).single();
+  if(data){
+    yo=data;
+    const mio=NOMBRES.indexOf(data.nombre);
+    if(mio>=0){
+      if(quien===-1) quien=mio;                       // sin filtro guardado: el tuyo
+      const col=["var(--verde)","var(--morado)","var(--azul)"][mio];
+      document.getElementById("yo").innerHTML=
+        '<b style="background:'+col+'"></b>'+data.nombre+' <i>· salir</i>';
+      document.getElementById("yo").querySelector("i").onclick=()=>SB.auth.signOut();
+    }
+  }
+  await cargar(); pintar(); escuchar();
+});
+(async()=>{const {data}=await SB.auth.getSession(); if(!data.session) pantalla.classList.add("ver");})();
 </script>
 </body>
 </html>
