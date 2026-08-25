@@ -210,6 +210,39 @@ h1{
 }
 #colabora .op b{width:22px;height:22px;border-radius:50%;color:#101728;font:800 12px/22px "Inter",sans-serif;text-align:center}
 #colabora .op i{margin-left:auto;font-style:normal;font:500 11px "Inter",sans-serif;color:var(--tenue)}
+#nuevo{position:fixed;inset:0;z-index:62;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
+#nuevo.ver{display:flex}
+#nuevo .caja{width:100%;max-height:88vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
+  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.12)}
+#nuevo h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 16px;letter-spacing:-.02em;text-transform:lowercase}
+#nuevo label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue);margin:14px 0 6px}
+#nuevo input,#nuevo textarea{width:100%;padding:11px 13px;border-radius:11px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  color:var(--blanco);font:500 15px/1.45 "Inter",sans-serif;resize:vertical}
+#nuevo textarea{min-height:70px}
+#nuevo input:focus,#nuevo textarea:focus{outline:none;border-color:rgba(255,255,255,.45)}
+#nuevo .fila{display:flex;gap:5px;flex-wrap:wrap}
+#nuevo .fila button{padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.15);
+  background:transparent;color:var(--tenue);font:600 12px "Inter",sans-serif;cursor:pointer}
+#nuevo .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
+#nuevo .ok2{width:100%;margin-top:22px;padding:14px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
+#nuevo .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#nfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
+
+#elegir .crear{width:100%;margin-top:8px;padding:11px;border-radius:11px;
+  border:1px dashed rgba(255,255,255,.3);background:transparent;color:var(--suave);
+  font:600 13px "Inter",sans-serif;cursor:pointer}
+#guardarDia{
+  display:none;width:100%;margin:18px 0 0;padding:13px;border-radius:12px;
+  border:1px dashed rgba(255,255,255,.22);background:transparent;color:var(--tenue);
+  font:600 13.5px "Inter",sans-serif;cursor:pointer;
+}
+#guardarDia.ver{display:block}
+#guardarDia:hover{color:var(--blanco);border-color:rgba(255,255,255,.5)}
+
 #acompana{position:fixed;inset:0;z-index:61;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
 #acompana.ver{display:flex}
 #acompana .caja{width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.12)}
@@ -333,6 +366,24 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="nuevo">
+  <div class="caja">
+    <h3>plato nuevo</h3>
+    <label for="nnombre">Nombre</label>
+    <input id="nnombre" placeholder="Tortilla de la abuela" autocomplete="off">
+    <label>Momento</label>
+    <div class="fila" id="nmomento"></div>
+    <label>Temporada</label>
+    <div class="fila" id="ntemp"></div>
+    <label for="ningr">Ingredientes</label>
+    <textarea id="ningr" placeholder="4 huevos, 2 patatas, cebolla, aceite y sal"></textarea>
+    <label for="nprep">Preparación</label>
+    <textarea id="nprep" placeholder="Opcional"></textarea>
+    <p id="nfallo"></p>
+    <button class="ok2" id="nguardar">Crear y poner en el día</button>
+    <button class="no2" id="ncancelar">Cancelar</button>
+  </div>
+</div>
 <div id="acompana">
   <div class="caja">
     <h3 id="atitulo"></h3>
@@ -356,6 +407,7 @@ h1{
       <button id="equitar">Quitar</button>
       <button id="ecancelar">Cancelar</button>
     </div>
+    <button class="crear" id="ecrear">+ Crear un plato nuevo</button>
   </div>
 </div>
 <div id="receta">
@@ -389,6 +441,7 @@ h1{
   <p class="sub"><span id="cuenta"></span><span class="hoy-etq" id="etqHoy" hidden>hoy</span><button class="vista" id="vista">Semana</button></p>
   <div class="filtros" id="filtros"></div>
   <div id="lista"></div>
+  <button id="guardarDia">Guardar este día en la biblioteca</button>
   <button id="imprimir">Imprimir para la nevera</button>
   <div class="regla"><p id="giro"></p><p>El lavavajillas lo pone quien lo vea lleno. Vaciarlo sí tiene dueño cada día.</p><p>Quien pone la lavadora está pendiente de cuándo acaba y la tiende. Al recogerla se dobla, y cada uno guarda lo suyo.</p></div>
 </div>
@@ -465,14 +518,16 @@ async function cargarMenu(){
 }
 
 // El catálogo entero: 183 platos. Se pide una vez y se guarda.
-let CATALOGO=null;
-async function cargarCatalogo(){
-  if(CATALOGO) return CATALOGO;
-  const {data}=await SB.from("plato")
-    .select("id,menu_dia_id,momento,orden,nombre,ingredientes,menu_dia(temporada)").order("menu_dia_id");
-  CATALOGO=(data||[]).map(p=>({...p,
-    temporada:p.menu_dia?p.menu_dia.temporada:"todo",
-    // el buscador mira el nombre y los ingredientes
+let CATALOGO=null, DIAPLATO=[];
+async function cargarCatalogo(force){
+  if(CATALOGO && !force) return CATALOGO;
+  const [pl,dp]=await Promise.all([
+    SB.from("platos_buscables").select("id,nombre,momento,orden,ingredientes,temporada,propio"),
+    SB.from("dia_plato").select("menu_dia_id,plato_id,momento,orden")
+  ]);
+  // Un plato puede estar en varios días: la relación vive en dia_plato.
+  DIAPLATO=dp.data||[];
+  CATALOGO=(pl.data||[]).map(p=>({...p,
     texto:((p.nombre||"")+" "+(p.ingredientes||"")).toLowerCase()
   }));
   return CATALOGO;
@@ -487,9 +542,11 @@ async function ponerPlatos(fi,momento,ids){
 
 // Si el plato elegido tiene compañero en su día (primero y segundo), lo ofrecemos.
 function elegirPlato(p){
-  const hermanos=CATALOGO
-    .filter(x=>x.menu_dia_id===p.menu_dia_id && x.momento===p.momento && x.id!==p.id)
-    .sort((a,b)=>a.orden-b.orden);
+  const dias=DIAPLATO.filter(x=>x.plato_id===p.id).map(x=>x.menu_dia_id);
+  const ids=[...new Set(DIAPLATO
+    .filter(x=>dias.includes(x.menu_dia_id) && x.momento===p.momento && x.plato_id!==p.id)
+    .sort((a,b)=>a.orden-b.orden).map(x=>x.plato_id))];
+  const hermanos=ids.map(id=>CATALOGO.find(c=>c.id===id)).filter(Boolean);
   if(!hermanos.length){ cerrarElegir(); return ponerPlatos(eFi,eMomento,[p.id]); }
   const juntos=[p,...hermanos].sort((a,b)=>a.orden-b.orden);
   document.getElementById("atitulo").textContent=p.nombre;
@@ -560,13 +617,15 @@ function pintarElegir(){
     // Si el otro momento ya está puesto, proponemos lo que Ángel emparejó con él.
     const otro = eMomento==="cena" ? "comida" : "cena";
     const puestos = (MENU[eFi]||{})[otro]||[];
-    const suyos = [...new Set(puestos.map(x=>x.dia).filter(Boolean))];
+    const suyos = [...new Set(puestos.flatMap(x=>
+      DIAPLATO.filter(y=>y.plato_id===x.id).map(y=>y.menu_dia_id)))];
     if(eCat===eMomento && suyos.length){
       // fuera lo que ya está puesto en este mismo hueco: no es recomendación
       const yaEsta=((MENU[eFi]||{})[eMomento]||[]).map(x=>x.id).filter(Boolean);
-      const pareja=CATALOGO
-        .filter(p=>p.momento===eCat && suyos.includes(p.menu_dia_id) && !yaEsta.includes(p.id))
-        .sort((a,b)=>a.orden-b.orden);
+      const idsPareja=[...new Set(DIAPLATO
+        .filter(x=>suyos.includes(x.menu_dia_id) && x.momento===eCat && !yaEsta.includes(x.plato_id))
+        .sort((a,b)=>a.orden-b.orden).map(x=>x.plato_id))];
+      const pareja=idsPareja.map(id=>CATALOGO.find(c=>c.id===id)).filter(Boolean);
       if(pareja.length){
         const t=document.createElement("span");
         t.className="grupo";
@@ -596,7 +655,11 @@ function pintarElegir(){
       });
   } else {
     const dias={};
-    CATALOGO.forEach(p=>{ (dias[p.menu_dia_id]=dias[p.menu_dia_id]||{temporada:p.temporada,platos:[]}).platos.push(p); });
+    DIAPLATO.forEach(x=>{
+      const p=CATALOGO.find(c=>c.id===x.plato_id); if(!p) return;
+      (dias[x.menu_dia_id]=dias[x.menu_dia_id]||{temporada:p.temporada,platos:[]})
+        .platos.push({...p,momento:x.momento,orden:x.orden});
+    });
     Object.entries(dias)
       .filter(([id,d])=>(!eTemp||d.temporada===eTemp) && d.platos.some(casa))
       .forEach(([id,d])=>{
@@ -615,6 +678,68 @@ function pintarElegir(){
   }
   if(!c.querySelector("button")) c.innerHTML='<p class="vacio">Nada con ese filtro.</p>';
 }
+let nMomento="cena", nTemp="todo";
+const TEMPS2=[["todo","Todo el año"],["invierno","Invierno"],["primavera","Primavera"],
+              ["verano","Verano"],["otono","Otoño"]];
+
+function abrirNuevo(){
+  nMomento=(eMomento==="desayuno"?"comida":eMomento); nTemp="todo";
+  ["nnombre","ningr","nprep"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("nfallo").textContent="";
+  pintarNuevo();
+  document.getElementById("nuevo").classList.add("ver");
+}
+function pintarNuevo(){
+  const m=document.getElementById("nmomento"); m.innerHTML="";
+  [["comida","Comida"],["cena","Cena"]].forEach(([v,txt])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",v===nMomento);
+    b.onclick=()=>{nMomento=v;pintarNuevo();};
+    m.appendChild(b);
+  });
+  const t=document.getElementById("ntemp"); t.innerHTML="";
+  TEMPS2.forEach(([v,txt])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",v===nTemp);
+    b.onclick=()=>{nTemp=v;pintarNuevo();};
+    t.appendChild(b);
+  });
+}
+
+async function crearPlato(){
+  const f=document.getElementById("nfallo");
+  const nombre=document.getElementById("nnombre").value.trim();
+  if(!nombre){ f.textContent="Ponle un nombre."; return; }
+  f.textContent="Guardando…";
+  const id="casa-"+Date.now().toString(36);
+  const r=await SB.from("plato").insert({
+    id:id, menu_dia_id:null, momento:nMomento, orden:1, propio:true,
+    temporada:nTemp, nombre:nombre,
+    ingredientes:document.getElementById("ningr").value.trim()||null,
+    preparacion:document.getElementById("nprep").value.trim()||null
+  });
+  if(r.error){ f.textContent=r.error.message; return; }
+  document.getElementById("nuevo").classList.remove("ver");
+  cerrarElegir();
+  await cargarCatalogo(true);
+  await ponerPlatos(eFi,eMomento,[id]);
+}
+
+// ---------- guardar el día en la biblioteca ----------
+async function guardarDia(){
+  const puestos=Object.values(MENU[dia]||{}).flat();
+  if(!puestos.length){ alert("Este día no tiene ningún plato puesto."); return; }
+  const titulo=prompt("¿Cómo llamamos a este día?","Nuestro "+DIAS[dia]);
+  if(!titulo) return;
+  const {data,error}=await SB.rpc("guardar_dia",{f:fechaISO(dia),titulo:titulo});
+  if(error){ alert(error.message); return; }
+  const r=Array.isArray(data)?data[0]:data;
+  await cargarCatalogo(true);
+  alert(r.ya_existia
+    ? "Esta combinación ya estaba guardada como: "+r.origen
+    : "Guardado. Ya lo puedes elegir en «El día entero».");
+}
+
 function cerrarElegir(){ document.getElementById("elegir").classList.remove("ver"); }
 
 function verReceta(pl,fi,momento){
@@ -740,6 +865,8 @@ function pintar(anim){
   document.getElementById("vista").textContent = semana ? "Día" : "Semana";
   document.getElementById("brujula").hidden = semana;
   document.getElementById("imprimir").classList.toggle("ver",semana);
+  document.getElementById("guardarDia").classList.toggle("ver",
+    !semana && Object.values(MENU[dia]||{}).flat().length>0);
   const c=document.getElementById("lista");
   c.className=(semana?"compacto":"")+(anim?" "+anim:"");
   if(anim){void c.offsetWidth;}
@@ -849,6 +976,11 @@ document.getElementById("imprimir").onclick=()=>{previa.classList.add("ver");pin
 document.getElementById("cerrarPrevia").onclick=()=>previa.classList.remove("ver");
 document.getElementById("lanzar").onclick=()=>window.print();
 addEventListener("resize",()=>{if(previa.classList.contains("ver"))pintarHoja();});
+document.getElementById("ecrear").onclick=abrirNuevo;
+document.getElementById("ncancelar").onclick=()=>document.getElementById("nuevo").classList.remove("ver");
+document.getElementById("nguardar").onclick=crearPlato;
+document.getElementById("nuevo").onclick=(e)=>{ if(e.target.id==="nuevo") e.target.classList.remove("ver"); };
+document.getElementById("guardarDia").onclick=guardarDia;
 document.getElementById("mplato").onclick=()=>{eModo="plato";pintarElegir();};
 document.getElementById("mdia").onclick=()=>{eModo="dia";pintarElegir();};
 document.getElementById("ebuscar").oninput=(e)=>{eTexto=e.target.value;pintarElegir();};
