@@ -16,8 +16,8 @@
 :root{
   --verde:#3DD68C; --morado:#A77BFF; --azul:#4A9EFF; --ambar:#FFC44D;
   --hecho:#3DD68C;
-  --blanco:#FFFFFF; --suave:rgba(255,255,255,.62); --tenue:rgba(255,255,255,.38);
-  --carta:rgba(255,255,255,.055); --borde:rgba(255,255,255,.10);
+  --blanco:#FFFFFF; --suave:rgba(255,255,255,.82); --tenue:rgba(255,255,255,.60);
+  --carta:rgba(255,255,255,.055); --borde:rgba(255,255,255,.30);
 }
 *{box-sizing:border-box}
 body{
@@ -37,39 +37,43 @@ body{
 .quien i{font-style:normal;color:var(--tenue);font-weight:500}
 .cab{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .fecha{
-  font:700 11px/1 "JetBrains Mono",monospace;color:var(--tenue);
-  letter-spacing:.06em;margin:10px 0 0;
+  font:700 11px/1.4 "JetBrains Mono",monospace;color:var(--tenue);
+  letter-spacing:.05em;margin:10px 0 0;
 }
 h1{
   font:800 34px/1 "Bricolage Grotesque","Inter",sans-serif;letter-spacing:-.03em;
   margin:0;text-transform:lowercase;cursor:pointer;
 }
 .brujula{display:flex;gap:5px;flex:0 0 auto}
-.brujula b{width:16px;height:3px;border-radius:99px;background:rgba(255,255,255,.16);transition:background .2s}
+.brujula b{width:18px;height:3px;border-radius:99px;background:rgba(255,255,255,.30);transition:background .2s}
 .brujula b.aqui{background:var(--blanco)}
 .brujula b.es-hoy{background:var(--ambar);opacity:.4}
 .brujula b.aqui.es-hoy{background:var(--ambar);opacity:1}
 .sub{
   font:700 11px/1 "JetBrains Mono",monospace;color:var(--tenue);
-  letter-spacing:.08em;text-transform:uppercase;margin:11px 0 0;
+  letter-spacing:.06em;text-transform:uppercase;margin:13px 0 0;
   display:flex;align-items:center;gap:8px;
 }
+.acciones{margin-left:auto;display:flex;gap:6px;flex:0 0 auto}
 .vista{
-  margin-left:auto;font:600 11px/1 "Inter",sans-serif;letter-spacing:.04em;
-  color:var(--suave);background:transparent;border:1px solid rgba(255,255,255,.18);
+  font:600 11px/1 "Inter",sans-serif;letter-spacing:.04em;
+  color:var(--suave);background:transparent;border:1px solid rgba(255,255,255,.32);
   border-radius:99px;padding:6px 12px;cursor:pointer;text-transform:none;
 }
 .vista:hover{color:var(--blanco);border-color:rgba(255,255,255,.4)}
+#volver{color:var(--ambar);border-color:rgba(255,196,77,.45)}
+#volver:hover{color:var(--ambar);border-color:var(--ambar)}
 .bloque.dia{cursor:pointer}
 .bloque.dia h2{color:var(--blanco);letter-spacing:.1em}
 .compacto .t{padding:10px 13px 10px 17px;margin-bottom:6px}
 .compacto .n{font-size:15px}
-.hoy-etq{color:var(--ambar);border:1px solid currentColor;border-radius:99px;padding:2px 6px;font-size:9px}
+.fecha em{font-style:normal;color:var(--ambar)}
+#cuenta{white-space:nowrap}
 
 .filtros{display:flex;gap:7px;margin:20px 0 22px;flex-wrap:wrap}
 .q{
   font:600 13px/1 "Inter",sans-serif;border-radius:99px;padding:8px 14px 9px;
-  border:1px solid rgba(255,255,255,.16);background:transparent;cursor:pointer;
+  border:1px solid rgba(255,255,255,.30);background:transparent;cursor:pointer;
   color:var(--suave);transition:background .15s,color .15s,border-color .15s;
 }
 .q.f0{color:var(--verde)} .q.f1{color:var(--morado)} .q.f2{color:var(--azul)}
@@ -89,7 +93,7 @@ h1{
   font:700 11px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;
   color:var(--suave);margin:0;
 }
-.bloque .raya{flex:1;height:1px;background:rgba(255,255,255,.10)}
+.bloque .raya{flex:1;height:1px;background:rgba(255,255,255,.18)}
 .bloque .c{font:700 10px/1 "JetBrains Mono",monospace;color:var(--tenue);letter-spacing:.06em}
 .bloque .aviso{
   font:700 9px/1 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;
@@ -126,26 +130,26 @@ h1{
 #elegir.ver{display:flex}
 #elegir .caja{
   width:100%;height:88vh;display:flex;flex-direction:column;background:#1A2138;
-  border-radius:20px 20px 0 0;padding:22px 18px 18px;border-top:1px solid rgba(255,255,255,.12);
+  border-radius:20px 20px 0 0;padding:22px 18px 18px;border-top:1px solid rgba(255,255,255,.20);
 }
 #elegir h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 14px;letter-spacing:-.02em;text-transform:lowercase}
 #elegir .modo{display:flex;gap:6px;margin-bottom:12px}
 #elegir .modo button{
-  flex:1;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.16);
+  flex:1;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.30);
   background:transparent;color:var(--suave);font:600 13px "Inter",sans-serif;cursor:pointer;
 }
 #elegir .modo button[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#0D1428}
 #elegir input{
   width:100%;padding:11px 13px;margin-bottom:10px;border-radius:11px;
-  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06);
   color:var(--blanco);font:500 15px "Inter",sans-serif;
 }
 #elegir input:focus{outline:none;border-color:rgba(255,255,255,.45)}
 #elegir .temps{display:flex;gap:5px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
 #elegir .temps::-webkit-scrollbar{display:none}
 #elegir .temps button{
-  flex:0 0 auto;padding:6px 11px;border-radius:99px;border:1px solid rgba(255,255,255,.15);
-  background:transparent;color:var(--tenue);font:600 12px "Inter",sans-serif;cursor:pointer;
+  flex:0 0 auto;padding:6px 11px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer;
 }
 #elegir .temps button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
 #elista{flex:1;overflow:auto;margin:2px -4px 0;padding:0 4px}
@@ -154,11 +158,11 @@ h1{
   border-radius:11px;border:1px solid var(--borde);background:var(--carta);
   color:var(--blanco);font:500 15px "Inter",sans-serif;cursor:pointer;
 }
-#elista button small{display:block;font:500 11.5px "Inter",sans-serif;color:var(--tenue);margin-top:5px}
+#elista button small{display:block;font:500 12px "Inter",sans-serif;color:var(--suave);margin-top:5px}
 #ecat{display:flex;gap:5px;margin-bottom:11px}
 #ecat button{
-  flex:0 0 auto;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.15);
-  background:transparent;color:var(--tenue);font:600 12px "Inter",sans-serif;cursor:pointer;
+  flex:0 0 auto;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer;
 }
 #ecat button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
 #elista button.sugerido{border-color:rgba(255,196,77,.45);background:rgba(255,196,77,.07)}
@@ -175,7 +179,7 @@ h1{
 }
 #elegir .pie2{display:flex;gap:8px;margin-top:12px}
 #elegir .pie2 button{
-  flex:1;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,.18);
+  flex:1;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,.32);
   background:transparent;color:var(--suave);font:600 13.5px "Inter",sans-serif;cursor:pointer;
 }
 #receta .cambiar{width:100%;margin-top:18px;padding:13px;border:none;border-radius:12px;
@@ -185,50 +189,108 @@ h1{
 #receta.ver{display:flex}
 #receta .caja{
   width:100%;max-height:82vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
-  padding:24px 20px 30px;border-top:1px solid rgba(255,255,255,.12);
+  padding:24px 20px 30px;border-top:1px solid rgba(255,255,255,.20);
 }
 #receta h3{font:800 21px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 3px;letter-spacing:-.02em}
 #receta .cuando{font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ambar);margin:0 0 18px}
 #receta h4{font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--tenue);margin:20px 0 7px}
 #receta p{font:400 14.5px/1.55 "Inter",sans-serif;color:var(--suave);margin:0;white-space:pre-line}
 #receta .nota{font-size:13px;color:var(--tenue);margin-top:16px;padding-top:14px;border-top:1px solid var(--borde)}
-#receta .cerrar{width:100%;margin-top:22px;padding:13px;border:1px solid rgba(255,255,255,.18);
+#receta .cerrar{width:100%;margin-top:22px;padding:13px;border:1px solid rgba(255,255,255,.32);
   background:transparent;border-radius:12px;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
 
 #colabora{position:fixed;inset:0;z-index:55;display:none;align-items:flex-end;background:rgba(6,10,22,.72)}
 #colabora.ver{display:flex}
 #colabora .caja{
   width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:22px 20px 26px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid rgba(255,255,255,.20);
 }
 #colabora h3{font:600 15px/1.3 "Inter",sans-serif;margin:0 0 4px;color:var(--blanco)}
 #colabora p{font:500 12px/1.3 "Inter",sans-serif;color:var(--tenue);margin:0 0 18px}
 #colabora .op{
   display:flex;align-items:center;gap:11px;width:100%;margin-bottom:8px;padding:13px 15px;
-  border-radius:13px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);
+  border-radius:13px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.04);
   color:var(--blanco);font:600 15px "Inter",sans-serif;cursor:pointer;text-align:left;
 }
 #colabora .op b{width:22px;height:22px;border-radius:50%;color:#101728;font:800 12px/22px "Inter",sans-serif;text-align:center}
 #colabora .op i{margin-left:auto;font-style:normal;font:500 11px "Inter",sans-serif;color:var(--tenue)}
+#compra{position:fixed;inset:0;z-index:62;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
+#compra.ver{display:flex}
+#compra .caja{width:100%;height:88vh;display:flex;flex-direction:column;background:#1A2138;
+  border-radius:20px 20px 0 0;padding:22px 18px 18px;border-top:1px solid rgba(255,255,255,.30)}
+#compra h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 3px;letter-spacing:-.02em;text-transform:lowercase}
+#compra .expl{font:400 13px/1.45 "Inter",sans-serif;color:var(--suave);margin:0 0 14px}
+#clista{flex:1;overflow:auto;margin:0 -4px;padding:0 4px}
+#clista .it{
+  display:flex;align-items:center;gap:11px;padding:11px 12px;margin-bottom:5px;
+  border-radius:11px;border:1px solid var(--borde);background:var(--carta);cursor:pointer;
+}
+#clista .it b{
+  flex:0 0 auto;width:19px;height:19px;border-radius:6px;border:1.5px solid rgba(255,255,255,.34);
+  font:800 11px/17px "Inter",sans-serif;text-align:center;color:transparent;
+}
+#clista .it.ok{opacity:.45}
+#clista .it.ok b{background:var(--verde);border-color:var(--verde);color:#101728}
+#clista .it.ok span{text-decoration:line-through}
+#clista .it span{flex:1;font:500 15px/1.3 "Inter",sans-serif}
+#clista .it em{font-style:normal;font:700 12px "JetBrains Mono",monospace;color:var(--suave)}
+#compra .pie3{display:flex;gap:8px;margin-top:12px}
+#compra .pie3 button{flex:1;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,.32);
+  background:transparent;color:var(--suave);font:600 13.5px "Inter",sans-serif;cursor:pointer}
+#compra .pie3 button.ok2{background:var(--azul);border-color:var(--azul);color:#0D1428;font-weight:700}
+
+#compraBtn{
+  display:none;width:100%;margin:9px 0 0;padding:13px;border-radius:12px;
+  border:1px dashed rgba(255,255,255,.34);background:transparent;color:var(--tenue);
+  font:600 13.5px "Inter",sans-serif;cursor:pointer;
+}
+#compraBtn.ver{display:block}
+#compraBtn:hover{color:var(--blanco);border-color:rgba(255,255,255,.6)}
+
+#rellena{position:fixed;inset:0;z-index:62;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
+#rellena.ver{display:flex}
+#rellena .caja{width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.20)}
+#rellena h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 4px;letter-spacing:-.02em;text-transform:lowercase}
+#rellena .expl{font:400 13.5px/1.5 "Inter",sans-serif;color:var(--tenue);margin:0 0 16px}
+#rellena label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue);margin:14px 0 7px}
+#rellena .fila{display:flex;gap:5px;flex-wrap:wrap}
+#rellena .fila button{padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer}
+#rellena .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
+#rellena .ok2{width:100%;margin-top:22px;padding:14px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
+#rellena .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);
+  border-radius:12px;background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#rfallo{color:var(--suave);font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
+
+#rellenar{
+  display:none;width:100%;margin:18px 0 0;padding:13px;border-radius:12px;
+  border:1px dashed rgba(255,255,255,.34);background:transparent;color:var(--tenue);
+  font:600 13.5px "Inter",sans-serif;cursor:pointer;
+}
+#rellenar.ver{display:block}
+#rellenar:hover{color:var(--blanco);border-color:rgba(255,255,255,.5)}
+
 #nuevo{position:fixed;inset:0;z-index:62;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
 #nuevo.ver{display:flex}
 #nuevo .caja{width:100%;max-height:88vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
-  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.12)}
+  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.20)}
 #nuevo h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 16px;letter-spacing:-.02em;text-transform:lowercase}
 #nuevo label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
   text-transform:uppercase;color:var(--tenue);margin:14px 0 6px}
 #nuevo input,#nuevo textarea{width:100%;padding:11px 13px;border-radius:11px;
-  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06);
   color:var(--blanco);font:500 15px/1.45 "Inter",sans-serif;resize:vertical}
 #nuevo textarea{min-height:70px}
 #nuevo input:focus,#nuevo textarea:focus{outline:none;border-color:rgba(255,255,255,.45)}
 #nuevo .fila{display:flex;gap:5px;flex-wrap:wrap}
-#nuevo .fila button{padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.15);
-  background:transparent;color:var(--tenue);font:600 12px "Inter",sans-serif;cursor:pointer}
+#nuevo .fila button{padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer}
 #nuevo .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
 #nuevo .ok2{width:100%;margin-top:22px;padding:14px;border:none;border-radius:12px;
   background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
-#nuevo .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.18);
+#nuevo .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);
   border-radius:12px;background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
 #nfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
 
@@ -237,7 +299,7 @@ h1{
   font:600 13px "Inter",sans-serif;cursor:pointer}
 #guardarDia{
   display:none;width:100%;margin:18px 0 0;padding:13px;border-radius:12px;
-  border:1px dashed rgba(255,255,255,.22);background:transparent;color:var(--tenue);
+  border:1px dashed rgba(255,255,255,.34);background:transparent;color:var(--tenue);
   font:600 13.5px "Inter",sans-serif;cursor:pointer;
 }
 #guardarDia.ver{display:block}
@@ -245,13 +307,13 @@ h1{
 
 #acompana{position:fixed;inset:0;z-index:61;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
 #acompana.ver{display:flex}
-#acompana .caja{width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.12)}
+#acompana .caja{width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.20)}
 #acompana h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 6px;letter-spacing:-.02em}
 #acompana p{font:400 14.5px/1.5 "Inter",sans-serif;color:var(--suave);margin:0 0 20px}
 #acompana p b{color:var(--blanco);font-weight:600}
 #acompana .ok2{width:100%;margin-bottom:8px;padding:14px;border:none;border-radius:12px;
   background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
-#acompana .no2{width:100%;padding:13px;border:1px solid rgba(255,255,255,.18);border-radius:12px;
+#acompana .no2{width:100%;padding:13px;border:1px solid rgba(255,255,255,.32);border-radius:12px;
   background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
 
 #colabora .no{width:100%;margin-top:6px;padding:12px;border:none;background:none;color:var(--tenue);font:500 13px "Inter",sans-serif;cursor:pointer}
@@ -271,7 +333,7 @@ h1{
 #acceso.ver{display:flex}
 #acceso h2{font:800 30px/1 "Bricolage Grotesque","Inter",sans-serif;letter-spacing:-.03em;margin:0 0 26px;text-transform:lowercase}
 #acceso input{width:100%;margin-bottom:10px;padding:14px 16px;border-radius:13px;
-  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06);
   color:var(--blanco);font:500 16px "Inter",sans-serif}
 #acceso input:focus{outline:none;border-color:rgba(255,255,255,.5)}
 #acceso button{width:100%;margin-top:8px;padding:15px;border:none;border-radius:13px;
@@ -279,7 +341,7 @@ h1{
 #fallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
 #imprimir{
   display:none;width:100%;margin:26px 0 0;padding:14px;border-radius:13px;
-  border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--suave);
+  border:1px solid rgba(255,255,255,.32);background:transparent;color:var(--suave);
   font:600 14px "Inter",sans-serif;cursor:pointer;
 }
 #imprimir.ver{display:block}
@@ -366,6 +428,30 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="compra">
+  <div class="caja">
+    <h3>lista de la compra</h3>
+    <p class="expl" id="cexpl"></p>
+    <div id="clista"></div>
+    <div class="pie3">
+      <button id="ccopiar">Copiar</button>
+      <button class="ok2" id="ccerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+<div id="rellena">
+  <div class="caja">
+    <h3>rellenar la semana</h3>
+    <p class="expl">Reparte días de la biblioteca, evitando los platos que habéis comido últimamente. Puedes marcar varias temporadas.</p>
+    <label>Temporada</label>
+    <div class="fila" id="rtemp"></div>
+    <label>Qué hacemos</label>
+    <div class="fila" id="rmodo"></div>
+    <p id="rfallo"></p>
+    <button class="ok2" id="rok">Rellenar</button>
+    <button class="no2" id="rno">Cancelar</button>
+  </div>
+</div>
 <div id="nuevo">
   <div class="caja">
     <h3>plato nuevo</h3>
@@ -438,9 +524,11 @@ h1{
   <div class="quien" id="yo"></div>
   <div class="cab"><h1 id="dia"></h1><div class="brujula" id="brujula"></div></div>
   <p class="fecha" id="fecha"></p>
-  <p class="sub"><span id="cuenta"></span><span class="hoy-etq" id="etqHoy" hidden>hoy</span><button class="vista" id="vista">Semana</button></p>
+  <p class="sub"><span id="cuenta"></span><span class="acciones"><button class="vista" id="volver" hidden>Hoy</button><button class="vista" id="vista">Semana</button></span></p>
   <div class="filtros" id="filtros"></div>
   <div id="lista"></div>
+  <button id="rellenar">Rellenar la semana con menús</button>
+  <button id="compraBtn">Lista de la compra</button>
   <button id="guardarDia">Guardar este día en la biblioteca</button>
   <button id="imprimir">Imprimir para la nevera</button>
   <div class="regla"><p id="giro"></p><p>El lavavajillas lo pone quien lo vea lleno. Vaciarlo sí tiene dueño cada día.</p><p>Quien pone la lavadora está pendiente de cuándo acaba y la tiende. Al recogerla se dobla, y cada uno guarda lo suyo.</p></div>
@@ -462,12 +550,13 @@ const ORDEN={"#3DD68C":0,"#A77BFF":1,"#4A9EFF":2};   // verde, morado, azul
 // En España toISOString() de la medianoche local devuelve el día anterior.
 const iso=(d)=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const hoy=(new Date().getDay()+6)%7;
-const LUNES=(()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-hoy);return d;})();
-const fechaDia=(i)=>new Date(LUNES.getTime()+i*864e5);
+const LUNES0=(()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-hoy);return d;})();
+let off=0;                     // semanas de distancia respecto a la de hoy
+const fechaDia=(i)=>new Date(LUNES0.getTime()+(off*7+i)*864e5);
 const fechaISO=(i)=>iso(fechaDia(i));
 const fechaDe=(i)=>fechaDia(i).toLocaleDateString("es",{day:"numeric",month:"long",year:"numeric"});
 
-let dia=hoy, semana=false, quien=-1;
+let dia=hoy, semana=false, quien=-1, cargando=false;
 try{const f=localStorage.getItem("casa:quien"); if(f!==null) quien=+f;}catch(e){}
 
 let PERSONAS=[null,null,null], NOMBRES=["—","—","—"];
@@ -740,6 +829,126 @@ async function guardarDia(){
     : "Guardado. Ya lo puedes elegir en «El día entero».");
 }
 
+// ---------- lista de la compra ----------
+// Sale sola de los ingredientes troceados. La despensa no cuenta.
+let COMPRA=[], marcados={};
+
+async function abrirCompra(){
+  const c=document.getElementById("clista");
+  document.getElementById("compra").classList.add("ver");
+  c.innerHTML='<p class="vacio">Calculando…</p>';
+  const {data,error}=await SB.from("menu_asignado")
+    .select("plato_id, plato(nombre, ingrediente(alimento,cantidad,unidad,despensa))")
+    .gte("fecha",fechaISO(0)).lte("fecha",fechaISO(6));
+  if(error){ c.innerHTML='<p class="vacio">'+error.message+"</p>"; return; }
+
+  // Una línea por alimento, sin cantidades: en el súper se mira el nombre.
+  const vistos=new Set();
+  (data||[]).forEach(m=>{
+    if(!m.plato||!m.plato.ingrediente) return;
+    m.plato.ingrediente.forEach(i=>{ if(!i.despensa) vistos.add(i.alimento); });
+  });
+  COMPRA=[...vistos].sort((a,b)=>a.localeCompare(b,"es"));
+  document.getElementById("cexpl").textContent=
+    COMPRA.length+" cosas · "+fechaDe(0).replace(/ de \d{4}$/,"")+" al "+fechaDe(6);
+  pintarCompra();
+}
+
+function pintarCompra(){
+  const c=document.getElementById("clista"); c.innerHTML="";
+  if(!COMPRA.length){ c.innerHTML='<p class="vacio">No hay menús puestos esta semana.</p>'; return; }
+  COMPRA.forEach(x=>{
+    const d=document.createElement("div");
+    d.className="it"+(marcados[x]?" ok":"");
+    d.innerHTML="<b>✓</b><span>"+x+"</span>";
+    d.onclick=()=>{ marcados[x]?delete marcados[x]:marcados[x]=1; pintarCompra(); };
+    c.appendChild(d);
+  });
+}
+
+function copiarCompra(){
+  const txt=COMPRA.map(x=>"· "+x).join("\n");
+  navigator.clipboard.writeText("Lista de la compra\n"+txt).then(
+    ()=>{document.getElementById("ccopiar").textContent="Copiada";
+         setTimeout(()=>document.getElementById("ccopiar").textContent="Copiar",1600);},
+    ()=>alert(txt));
+}
+
+// ---------- autocompletar la semana ----------
+let rTemps=[], rModo="huecos";
+
+function abrirRellenar(){
+  rTemps=[]; rModo="huecos";
+  document.getElementById("rfallo").textContent="";
+  pintarRellenar();
+  document.getElementById("rellena").classList.add("ver");
+}
+function pintarRellenar(){
+  const t=document.getElementById("rtemp"); t.innerHTML="";
+  TEMPS.forEach(([v,txt])=>{
+    const b=document.createElement("button");
+    b.textContent = v ? txt : "Todas";
+    b.setAttribute("aria-pressed", v ? rTemps.includes(v) : rTemps.length===0);
+    b.onclick=()=>{
+      if(!v) rTemps=[];
+      else rTemps = rTemps.includes(v) ? rTemps.filter(x=>x!==v) : [...rTemps,v];
+      pintarRellenar();
+    };
+    t.appendChild(b);
+  });
+  const m=document.getElementById("rmodo"); m.innerHTML="";
+  [["huecos","Solo los días vacíos"],["todo","Rehacer la semana entera"]].forEach(([v,txt])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",v===rModo);
+    b.onclick=()=>{rModo=v;pintarRellenar();};
+    m.appendChild(b);
+  });
+}
+
+async function rellenarSemana(){
+  const f=document.getElementById("rfallo");
+  f.textContent="Buscando menús…";
+  await cargarCatalogo();
+
+  // Días candidatos: los que tienen comida y cena.
+  const dias={};
+  DIAPLATO.forEach(x=>{
+    const p=CATALOGO.find(c=>c.id===x.plato_id); if(!p) return;
+    const d=dias[x.menu_dia_id]=dias[x.menu_dia_id]||{temporada:p.temporada,platos:[],momentos:new Set()};
+    d.platos.push(x.plato_id); d.momentos.add(x.momento);
+  });
+  let candidatos=Object.entries(dias)
+    .filter(([id,d])=>d.momentos.has("comida")&&d.momentos.has("cena"))
+    .filter(([id,d])=>!rTemps.length||rTemps.includes(d.temporada));
+  if(!candidatos.length){ f.textContent="No hay menús completos con esas temporadas."; return; }
+
+  // Lo comido en los últimos dos meses pesa en contra.
+  const desde=new Date(fechaDia(0).getTime()-60*864e5);
+  const {data:hist}=await SB.from("menu_asignado").select("plato_id")
+    .gte("fecha",iso(desde)).lt("fecha",fechaISO(0));
+  const recientes={};
+  (hist||[]).forEach(h=>{ if(h.plato_id) recientes[h.plato_id]=(recientes[h.plato_id]||0)+1; });
+
+  candidatos = candidatos
+    .map(([id,d])=>({id, peso:d.platos.reduce((a,x)=>a+(recientes[x]||0),0), az:Math.random()}))
+    .sort((a,b)=>a.peso-b.peso||a.az-b.az);
+
+  // Qué días de la semana hay que rellenar.
+  const objetivo=[0,1,2,3,4,5,6].filter(i=>
+    rModo==="todo" || !Object.values(MENU[i]||{}).flat().length);
+  if(!objetivo.length){ f.textContent="La semana ya está completa."; return; }
+
+  let k=0;
+  for(const i of objetivo){
+    const elegido=candidatos[k++ % candidatos.length];
+    f.textContent="Poniendo "+DIAS[i]+"…";
+    if(rModo==="todo") await SB.from("menu_asignado").delete().eq("fecha",fechaISO(i));
+    await SB.rpc("aplicar_menu",{f:fechaISO(i),dia:elegido.id});
+  }
+  document.getElementById("rellena").classList.remove("ver");
+  await cargarMenu(); pintar();
+}
+
 function cerrarElegir(){ document.getElementById("elegir").classList.remove("ver"); }
 
 function verReceta(pl,fi,momento){
@@ -852,6 +1061,21 @@ function cabecera(c,txt,extra,hechas,total,alPulsar){
   c.appendChild(cab);
 }
 
+// Lo que se dice al lado de la fecha: hoy, mañana, o en qué semana estás.
+function contexto(){
+  if(off===0 && dia===hoy) return "hoy";
+  if(off===0 && dia===hoy+1) return "mañana";
+  if(off===0 && dia===hoy-1) return "ayer";
+  return off ? etiquetaSemana() : "";
+}
+
+function etiquetaSemana(){
+  if(off===0) return "hoy";
+  if(off===1) return "semana que viene";
+  if(off===-1) return "semana pasada";
+  return (off>0?"en "+off:"hace "+(-off))+" semanas";
+}
+
 function pintar(anim){
   const fs=document.getElementById("filtros"); fs.innerHTML="";
   [[-1,"Todos"],[0,NOMBRES[0]],[1,NOMBRES[1]],[2,NOMBRES[2]]].forEach(([i,txt])=>{
@@ -863,10 +1087,13 @@ function pintar(anim){
     fs.appendChild(b);
   });
   document.getElementById("vista").textContent = semana ? "Día" : "Semana";
+  document.getElementById("volver").hidden = (off===0 && (semana || dia===hoy));
   document.getElementById("brujula").hidden = semana;
   document.getElementById("imprimir").classList.toggle("ver",semana);
   document.getElementById("guardarDia").classList.toggle("ver",
     !semana && Object.values(MENU[dia]||{}).flat().length>0);
+  document.getElementById("rellenar").classList.toggle("ver",semana);
+  document.getElementById("compraBtn").classList.toggle("ver",semana);
   const c=document.getElementById("lista");
   c.className=(semana?"compacto":"")+(anim?" "+anim:"");
   if(anim){void c.offsetWidth;}
@@ -879,12 +1106,12 @@ function pintarSemana(c){
   document.getElementById("dia").textContent="semana";
   document.getElementById("cuenta").textContent=
     todo.filter(t=>t.hecho).length+" de "+todo.length+" listas";
-  document.getElementById("fecha").textContent=fechaDe(0)+" — "+fechaDe(6);
-  document.getElementById("etqHoy").hidden=true;
+  document.getElementById("fecha").innerHTML=
+    fechaDe(0)+" — "+fechaDe(6) + (off ? " · <em>"+etiquetaSemana()+"</em>" : "");
   DIAS.forEach((nom,i)=>{
     const lista=SEM[i].filter(t=>quien<0||t.p===quien);
     if(!lista.length) return;
-    cabecera(c,nom,i===hoy?"hoy":"",lista.filter(t=>t.hecho).length,lista.length,
+    cabecera(c,nom,(off===0&&i===hoy)?"hoy":"",lista.filter(t=>t.hecho).length,lista.length,
       ()=>{semana=false;dia=i;pintar();});
     lista.forEach(t=>tarjeta(i,t,c,null));
   });
@@ -896,19 +1123,20 @@ function pintarDia(c){
   document.getElementById("dia").textContent=DIAS[dia];
   document.getElementById("cuenta").textContent=
     lista.filter(t=>t.hecho).length+" de "+lista.length+" listas";
-  document.getElementById("fecha").textContent=fechaDe(dia);
-  document.getElementById("etqHoy").hidden=dia!==hoy;
+  document.getElementById("fecha").innerHTML=
+    fechaDe(dia) + (contexto() ? " · <em>"+contexto()+"</em>" : "");
 
   const br=document.getElementById("brujula"); br.innerHTML="";
   DIAS.forEach((_,i)=>{
     const b=document.createElement("b");
-    b.className=(i===dia?"aqui ":"")+(i===hoy?"es-hoy":"");
+    b.className=(i===dia?"aqui ":"")+((off===0&&i===hoy)?"es-hoy":"");
     br.appendChild(b);
   });
 
+  if(cargando){c.innerHTML='<p class="vacio">Cargando…</p>';return;}
   if(!lista.length){c.innerHTML='<p class="vacio">'+(quien<0?"Sin turnos este día.":NOMBRES[quien]+" no tiene turnos este día.")+'</p>';return;}
   const reloj=new Date(), h=reloj.getHours()+reloj.getMinutes()/60;
-  const ahora = dia===hoy ? (h<12?1:(h<17?2:3)) : -1;
+  const ahora = (off===0&&dia===hoy) ? (h<12?1:(h<17?2:3)) : -1;
   const sigue = ahora<0 ? null : (lista.find(t=>!t.hecho && t.bloque===ahora)||{}).id;
 
   BLOQUES.forEach((nom,bi)=>{
@@ -948,9 +1176,24 @@ function pintarHoja(){
 
 // ---------- navegación ----------
 
-function mover(paso){
-  if(semana) return;
-  dia=(dia+paso+7)%7;
+async function irSemana(nuevo){
+  if(nuevo===off) return;
+  off=nuevo; cargando=true; pintar();
+  await Promise.all([cargarSemana(),cargarMenu()]);
+  cargando=false;
+}
+
+// Pasar del domingo salta a la semana siguiente, y del lunes a la anterior.
+async function mover(paso){
+  if(semana){                                  // en vista semanal se salta de semana
+    await irSemana(off+paso);
+    pintar(paso>0?"entra-der":"entra-izq");
+    return;
+  }
+  const d=dia+paso;
+  if(d>6){ await irSemana(off+1); dia=0; }
+  else if(d<0){ await irSemana(off-1); dia=6; }
+  else dia=d;
   pintar(paso>0?"entra-der":"entra-izq");
 }
 let x0=null,y0=null;
@@ -966,9 +1209,19 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowRight")mover(1);
   if(e.key==="ArrowLeft")mover(-1);
 });
-document.getElementById("dia").onclick=()=>{
+document.getElementById("volver").onclick=async()=>{
+  semana=false;
+  const p=off>0?-1:(off<0?1:(((hoy-dia+7)%7)<4?1:-1));
+  await irSemana(0); dia=hoy;
+  pintar(p>0?"entra-der":"entra-izq");
+};
+document.getElementById("dia").onclick=async()=>{
   if(semana){semana=false;pintar();return;}
-  if(dia!==hoy){const p=((hoy-dia+7)%7)<4?1:-1;dia=hoy;pintar(p>0?"entra-der":"entra-izq");}
+  if(off!==0||dia!==hoy){
+    const p=off>0?-1:(off<0?1:(((hoy-dia+7)%7)<4?1:-1));
+    await irSemana(0); dia=hoy;
+    pintar(p>0?"entra-der":"entra-izq");
+  }
 };
 document.getElementById("vista").onclick=()=>{semana=!semana;pintar();window.scrollTo(0,0);};
 const previa=document.getElementById("previa");
@@ -981,6 +1234,14 @@ document.getElementById("ncancelar").onclick=()=>document.getElementById("nuevo"
 document.getElementById("nguardar").onclick=crearPlato;
 document.getElementById("nuevo").onclick=(e)=>{ if(e.target.id==="nuevo") e.target.classList.remove("ver"); };
 document.getElementById("guardarDia").onclick=guardarDia;
+document.getElementById("rellenar").onclick=abrirRellenar;
+document.getElementById("compraBtn").onclick=abrirCompra;
+document.getElementById("ccerrar").onclick=()=>document.getElementById("compra").classList.remove("ver");
+document.getElementById("ccopiar").onclick=copiarCompra;
+document.getElementById("compra").onclick=(e)=>{ if(e.target.id==="compra") e.target.classList.remove("ver"); };
+document.getElementById("rno").onclick=()=>document.getElementById("rellena").classList.remove("ver");
+document.getElementById("rok").onclick=rellenarSemana;
+document.getElementById("rellena").onclick=(e)=>{ if(e.target.id==="rellena") e.target.classList.remove("ver"); };
 document.getElementById("mplato").onclick=()=>{eModo="plato";pintarElegir();};
 document.getElementById("mdia").onclick=()=>{eModo="dia";pintarElegir();};
 document.getElementById("ebuscar").oninput=(e)=>{eTexto=e.target.value;pintarElegir();};
