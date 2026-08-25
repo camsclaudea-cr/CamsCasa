@@ -454,6 +454,7 @@ async function cargarMenu(){
     const i=[0,1,2,3,4,5,6].findIndex(k=>fechaISO(k)===r.fecha);
     if(i<0) return;
     (MENU[i][r.momento]=MENU[i][r.momento]||[]).push({
+      id:     r.plato ? r.plato.id : null,
       dia:    r.plato ? r.plato.menu_dia_id : null,
       nombre: r.plato ? r.plato.nombre : (r.nombre||"Sin nombre"),
       ingredientes: r.plato ? r.plato.ingredientes : null,
@@ -561,8 +562,11 @@ function pintarElegir(){
     const puestos = (MENU[eFi]||{})[otro]||[];
     const suyos = [...new Set(puestos.map(x=>x.dia).filter(Boolean))];
     if(eCat===eMomento && suyos.length){
-      const pareja=CATALOGO.filter(p=>p.momento===eCat && suyos.includes(p.menu_dia_id))
-                           .sort((a,b)=>a.orden-b.orden);
+      // fuera lo que ya está puesto en este mismo hueco: no es recomendación
+      const yaEsta=((MENU[eFi]||{})[eMomento]||[]).map(x=>x.id).filter(Boolean);
+      const pareja=CATALOGO
+        .filter(p=>p.momento===eCat && suyos.includes(p.menu_dia_id) && !yaEsta.includes(p.id))
+        .sort((a,b)=>a.orden-b.orden);
       if(pareja.length){
         const t=document.createElement("span");
         t.className="grupo";
