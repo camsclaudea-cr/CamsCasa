@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#3B2260">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -182,6 +185,15 @@ h1{
   flex:1;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,.32);
   background:transparent;color:var(--suave);font:600 13.5px "Inter",sans-serif;cursor:pointer;
 }
+#receta .secc{
+  font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--tenue);margin:26px 0 0;padding-top:18px;border-top:1px solid var(--borde);
+}
+#receta .admin{display:flex;gap:8px;margin-top:12px}
+#receta .admin button{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.32);
+  background:transparent;color:var(--suave);font:600 13.5px "Inter",sans-serif;cursor:pointer}
+#receta .admin button.peligro{color:#FF9A9A;border-color:rgba(255,154,154,.45)}
+#receta .donde{font:400 12.5px/1.45 "Inter",sans-serif;color:var(--suave);margin:9px 0 0}
 #receta .cambiar{width:100%;margin-top:18px;padding:13px;border:none;border-radius:12px;
   background:var(--azul);color:#0D1428;font:700 14px "Inter",sans-serif;cursor:pointer}
 
@@ -214,6 +226,88 @@ h1{
 }
 #colabora .op b{width:22px;height:22px;border-radius:50%;color:#101728;font:800 12px/22px "Inter",sans-serif;text-align:center}
 #colabora .op i{margin-left:auto;font-style:normal;font:500 11px "Inter",sans-serif;color:var(--tenue)}
+#config{position:fixed;inset:0;z-index:63;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
+#config.ver{display:flex}
+#config .caja{width:100%;max-height:88vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
+  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.30)}
+#config h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 16px;letter-spacing:-.02em;text-transform:lowercase}
+#config h4{font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--tenue);margin:24px 0 10px;padding-top:18px;border-top:1px solid var(--borde)}
+#config h4:first-of-type{margin-top:0;padding-top:0;border-top:none}
+#config .dato{font:400 14.5px/1.55 "Inter",sans-serif;color:var(--suave);margin:0 0 14px}
+#config .dato b{color:var(--blanco);font-weight:600}
+#config .quien2{display:flex;align-items:center;gap:9px;margin-bottom:7px;font:500 15px "Inter",sans-serif}
+#config .quien2 i{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto}
+#config .quien2 em{font-style:normal;color:var(--tenue);font-size:13px}
+#config .fila{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#config .fila button{padding:9px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.30);
+  background:transparent;color:var(--suave);font:600 13px "Inter",sans-serif;cursor:pointer}
+#config .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
+#config .ok2{width:100%;margin-top:6px;padding:13px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 14px "Inter",sans-serif;cursor:pointer}
+#config .no2{width:100%;margin-top:20px;padding:13px;border:1px solid rgba(255,255,255,.32);
+  border-radius:12px;background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#config .tlista{margin:4px 0 0}
+#config .tit{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:6px;
+  padding:11px 13px;border-radius:11px;border:1px solid var(--borde);background:var(--carta);
+  color:var(--blanco);font:500 14.5px "Inter",sans-serif;cursor:pointer;
+}
+#config .tit i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+#config .tit em{font-style:normal;margin-left:auto;font:500 11.5px "JetBrains Mono",monospace;color:var(--tenue);text-align:right}
+#config .anadir{width:100%;margin-top:8px;padding:11px;border-radius:11px;
+  border:1px dashed rgba(255,255,255,.34);background:transparent;color:var(--suave);
+  font:600 13px "Inter",sans-serif;cursor:pointer}
+
+#tarea{position:fixed;inset:0;z-index:64;display:none;align-items:flex-end;background:rgba(6,10,22,.8)}
+#tarea.ver{display:flex}
+#tarea .caja{width:100%;max-height:90vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
+  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.30)}
+#tarea h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 4px;letter-spacing:-.02em;text-transform:lowercase}
+#tarea .aviso2{font:400 13px/1.5 "Inter",sans-serif;color:var(--tenue);margin:0 0 6px}
+#tarea label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue);margin:16px 0 7px}
+#tarea input{width:100%;padding:11px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.26);
+  background:rgba(255,255,255,.06);color:var(--blanco);font:500 15px "Inter",sans-serif}
+#tarea input:focus{outline:none;border-color:rgba(255,255,255,.45)}
+#tarea .fila{display:flex;gap:5px;flex-wrap:wrap}
+#tarea .fila button{padding:8px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12.5px "Inter",sans-serif;cursor:pointer}
+#tarea .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
+#tarea .ok2{width:100%;margin-top:22px;padding:14px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
+#tarea .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);border-radius:12px;
+  background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#tarea .peligro{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,154,154,.45);
+  border-radius:12px;background:transparent;color:#FF9A9A;font:600 14px "Inter",sans-serif;cursor:pointer}
+#tsitio{display:flex;flex-direction:column;gap:0;margin-top:2px}
+#tsitio button{
+  text-align:left;padding:10px 13px;border-radius:10px;border:1px dashed rgba(255,255,255,.30);
+  background:transparent;color:var(--suave);font:600 12.5px "Inter",sans-serif;cursor:pointer;
+}
+#tsitio button[aria-pressed="true"]{border-style:solid;border-color:var(--azul);color:var(--blanco);background:rgba(74,158,255,.12)}
+#tsitio .fija{
+  padding:9px 13px;font:500 14px "Inter",sans-serif;color:var(--tenue);
+  display:flex;align-items:center;gap:9px;
+}
+#tsitio .fija i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+#tsitio .fija.yo{color:var(--blanco);font-weight:600}
+#tfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
+
+#cfallo{font:500 13px "Inter",sans-serif;color:var(--ambar);margin:12px 0 0;min-height:18px}
+.quien u{text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.45);cursor:pointer;color:var(--suave)}
+
+#aviso{
+  position:fixed;left:12px;right:12px;bottom:14px;z-index:70;display:none;
+  align-items:center;gap:12px;padding:13px 15px;border-radius:14px;
+  background:var(--ambar);color:#101728;box-shadow:0 8px 28px rgba(0,0,0,.45);
+}
+#aviso.ver{display:flex}
+#aviso span{flex:1;font:600 14px "Inter",sans-serif}
+#aviso button{padding:9px 15px;border:none;border-radius:10px;background:#101728;color:var(--ambar);
+  font:700 13px "Inter",sans-serif;cursor:pointer}
+.version{font:500 10.5px "JetBrains Mono",monospace;color:var(--tenue);margin-top:14px;text-align:right}
+
 #compra{position:fixed;inset:0;z-index:62;display:none;align-items:flex-end;background:rgba(6,10,22,.78)}
 #compra.ver{display:flex}
 #compra .caja{width:100%;height:88vh;display:flex;flex-direction:column;background:#1A2138;
@@ -292,6 +386,15 @@ h1{
   background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
 #nuevo .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);
   border-radius:12px;background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#nchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+#nchips button{
+  padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12.5px "Inter",sans-serif;cursor:pointer;
+}
+#nchips button[aria-pressed="true"]{color:#101728;background:var(--verde);border-color:var(--verde)}
+#nchips button.desp{text-decoration:line-through;opacity:.5}
+#nchips .nada{font:400 13px "Inter",sans-serif;color:var(--tenue)}
+.pista{font:400 12.5px/1.45 "Inter",sans-serif;color:var(--tenue);margin:6px 0 0}
 #nfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
 
 #elegir .crear{width:100%;margin-top:8px;padding:11px;border-radius:11px;
@@ -428,6 +531,50 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="tarea">
+  <div class="caja">
+    <h3 id="ttitulo"></h3>
+    <p class="aviso2" id="taviso"></p>
+    <label for="tnombre">Nombre</label>
+    <input id="tnombre" autocomplete="off">
+    <label>Perfil</label>
+    <div class="fila" id="tperfil"></div>
+    <label>Día</label>
+    <div class="fila" id="tdia"></div>
+    <label>Bloque</label>
+    <div class="fila" id="tbloque"></div>
+    <label>En qué sitio del bloque</label>
+    <div id="tsitio"></div>
+    <label>Desde cuándo</label>
+    <div class="fila" id="tdesde"></div>
+    <p id="tfallo"></p>
+    <button class="ok2" id="tguardar">Guardar</button>
+    <button class="peligro" id="tquitar">Quitar del reparto</button>
+    <button class="no2" id="tcancelar">Cancelar</button>
+  </div>
+</div>
+<div id="config">
+  <div class="caja">
+    <h3>configuración</h3>
+    <h4>Quién lleva cada perfil</h4>
+    <div id="cahora"></div>
+    <p class="dato" id="cproximo"></p>
+    <h4>Aplazar el próximo cambio</h4>
+    <div class="fila" id="caplazar"></div>
+    <h4>Cada cuánto rotan</h4>
+    <div class="fila" id="ccada"></div>
+    <button class="ok2" id="capliCada">Aplicar desde el próximo cambio</button>
+    <h4>Reparto de tareas</h4>
+    <p class="dato">Los cambios valen <b>desde la fecha que elijas</b>. Lo anterior no se toca.</p>
+    <div class="fila" id="cdia"></div>
+    <div class="tlista" id="ctareas"></div>
+    <button class="anadir" id="canadir">+ Añadir una tarea a este día</button>
+
+    <p id="cfallo"></p>
+    <button class="no2" id="ccerrar2">Cerrar</button>
+  </div>
+</div>
+<div id="aviso"><span>Hay una versión nueva</span><button id="recargar">Actualizar</button></div>
 <div id="compra">
   <div class="caja">
     <h3>lista de la compra</h3>
@@ -463,6 +610,9 @@ h1{
     <div class="fila" id="ntemp"></div>
     <label for="ningr">Ingredientes</label>
     <textarea id="ningr" placeholder="4 huevos, 2 patatas, cebolla, aceite y sal"></textarea>
+    <label>Para la lista de la compra</label>
+    <div id="nchips"></div>
+    <p class="pista">Verde = entra en la compra. Toca para quitar lo que ya haya en casa.</p>
     <label for="nprep">Preparación</label>
     <textarea id="nprep" placeholder="Opcional"></textarea>
     <p id="nfallo"></p>
@@ -502,6 +652,14 @@ h1{
     <p class="cuando" id="rcuando"></p>
     <div id="rcuerpo"></div>
     <button class="cambiar" id="rcambiar">Cambiar plato</button>
+    <div id="radmin" hidden>
+      <h4 class="secc">Biblioteca</h4>
+      <p class="donde" id="rdonde"></p>
+      <div class="admin">
+        <button id="reditar">Editar</button>
+        <button class="peligro" id="rborrar">Borrar</button>
+      </div>
+    </div>
     <button class="cerrar" id="rcerrar">Cerrar</button>
   </div>
 </div>
@@ -531,6 +689,7 @@ h1{
   <button id="compraBtn">Lista de la compra</button>
   <button id="guardarDia">Guardar este día en la biblioteca</button>
   <button id="imprimir">Imprimir para la nevera</button>
+  <p class="version" id="version"></p>
   <div class="regla"><p id="giro"></p><p>El lavavajillas lo pone quien lo vea lleno. Vaciarlo sí tiene dueño cada día.</p><p>Quien pone la lavadora está pendiente de cuándo acaba y la tiende. Al recogerla se dobla, y cada uno guarda lo suyo.</p></div>
 </div>
 <script>
@@ -541,6 +700,10 @@ h1{
 const SB = supabase.createClient(
   "https://bvembbhfvcboowusdgkc.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2ZW1iYmhmdmNib293dXNkZ2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MDAzODMsImV4cCI6MjEwMjk3NjM4M30.L0vxmVcU4rPDwkZshxuxzvsoCFhHg2vVNozJj5oby5E");
+
+// Cambiar en cada publicación. Sirve para detectar que hay versión nueva
+// cuando iOS se queda con la vieja en el acceso directo.
+const VERSION="20260826.7";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
@@ -588,7 +751,7 @@ async function cargarSemana(){
 let MENU=[{},{},{},{},{},{},{}];
 async function cargarMenu(){
   const {data,error}=await SB.from("menu_asignado")
-    .select("fecha,momento,orden,nombre,plato(id,menu_dia_id,nombre,ingredientes,preparacion,nota)")
+    .select("fecha,momento,orden,nombre,plato(id,menu_dia_id,propio,nombre,ingredientes,preparacion,nota)")
     .gte("fecha",fechaISO(0)).lte("fecha",fechaISO(6)).order("orden");
   MENU=[{},{},{},{},{},{},{}];
   if(error||!data) return;
@@ -597,6 +760,7 @@ async function cargarMenu(){
     if(i<0) return;
     (MENU[i][r.momento]=MENU[i][r.momento]||[]).push({
       id:     r.plato ? r.plato.id : null,
+      propio: r.plato ? !!r.plato.propio : false,
       dia:    r.plato ? r.plato.menu_dia_id : null,
       nombre: r.plato ? r.plato.nombre : (r.nombre||"Sin nombre"),
       ingredientes: r.plato ? r.plato.ingredientes : null,
@@ -771,10 +935,57 @@ let nMomento="cena", nTemp="todo";
 const TEMPS2=[["todo","Todo el año"],["invierno","Invierno"],["primavera","Primavera"],
               ["verano","Verano"],["otono","Otoño"]];
 
+// Lo que siempre hay en casa: no se compra.
+const DESPENSA=["sal","pimienta","pimienta negra","aceite","aceite de oliva","vinagre",
+ "azúcar","agua","comino","cominos","pimentón","pimentón dulce","laurel","orégano","tomillo",
+ "romero","azafrán","cúrcuma","cayena","guindilla","harina","mostaza","mahonesa","mahonesa ligera",
+ "salsa de tomate","tomate frito","vino blanco","vino tinto","pan rallado","especias"];
+
+const UNIDADES=/^(gr|g|gramos|kg|ml|cl|l|litros?|unidades?|unid|uds?|latas?|botes?|bolsas?|cucharadas?|cucharaditas?|vasos?|vasitos?|dientes?|lonchas?|rebanadas?|puñados?|pizcas?|ramas?|hojas?)\b\.?\s*/;
+
+function limpiaIngrediente(x){
+  let t=(x||"").toLowerCase().trim();
+  for(let i=0;i<3;i++){
+    t=t.replace(/^[\d.,/½¼¾\s-]+/,"").replace(UNIDADES,"")
+       .replace(/^(de|del|la|el|los|las|un|una|unos|unas)\s+/,"");
+  }
+  return t.replace(/\s+/g," ").replace(/[.;:]+$/,"").trim();
+}
+
+// De "4 huevos, 2 patatas, cebolla, aceite y sal" salen cinco cosas.
+function trocearIngredientes(txt){
+  return (txt||"").split(/[,;\n]|\s+y\s+/)
+    .map(limpiaIngrediente)
+    .filter(x=>x.length>1 && x.length<40);
+}
+
+let nItems=[];
+function refrescarChips(){
+  const antes={}; nItems.forEach(x=>antes[x.alimento]=x.despensa);
+  nItems=trocearIngredientes(document.getElementById("ningr").value)
+    .filter((x,i,a)=>a.indexOf(x)===i)
+    .map(x=>({alimento:x,
+      despensa: antes[x]!==undefined ? antes[x] : DESPENSA.includes(x)}));
+  const c=document.getElementById("nchips"); c.innerHTML="";
+  if(!nItems.length){ c.innerHTML='<span class="nada">Escribe los ingredientes arriba.</span>'; return; }
+  nItems.forEach(x=>{
+    const b=document.createElement("button");
+    b.textContent=x.alimento;
+    b.className=x.despensa?"desp":"";
+    b.setAttribute("aria-pressed",!x.despensa);
+    b.onclick=()=>{x.despensa=!x.despensa;refrescarChips();};
+    c.appendChild(b);
+  });
+}
+
 function abrirNuevo(){
+  editando=null;
+  document.querySelector("#nuevo h3").textContent="plato nuevo";
+  document.getElementById("nguardar").textContent="Crear y poner en el día";
   nMomento=(eMomento==="desayuno"?"comida":eMomento); nTemp="todo";
   ["nnombre","ningr","nprep"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("nfallo").textContent="";
+  nItems=[]; refrescarChips();
   pintarNuevo();
   document.getElementById("nuevo").classList.add("ver");
 }
@@ -800,14 +1011,35 @@ async function crearPlato(){
   const nombre=document.getElementById("nnombre").value.trim();
   if(!nombre){ f.textContent="Ponle un nombre."; return; }
   f.textContent="Guardando…";
-  const id="casa-"+Date.now().toString(36);
-  const r=await SB.from("plato").insert({
-    id:id, menu_dia_id:null, momento:nMomento, orden:1, propio:true,
-    temporada:nTemp, nombre:nombre,
+  const campos={
+    momento:nMomento, temporada:nTemp, nombre:nombre,
     ingredientes:document.getElementById("ningr").value.trim()||null,
     preparacion:document.getElementById("nprep").value.trim()||null
-  });
+  };
+
+  if(editando){
+    const r=await SB.from("plato").update(campos).eq("id",editando);
+    if(r.error){ f.textContent=r.error.message; return; }
+    // Los ingredientes troceados se rehacen solo si los has tocado.
+    if(nItems.length){
+      await SB.from("ingrediente").delete().eq("plato_id",editando);
+      await SB.from("ingrediente").insert(
+        nItems.map(x=>({plato_id:editando, alimento:x.alimento, despensa:x.despensa})));
+    }
+    document.getElementById("nuevo").classList.remove("ver");
+    editando=null;
+    await cargarCatalogo(true); await cargarMenu(); pintar();
+    return;
+  }
+
+  const id="casa-"+Date.now().toString(36);
+  const r=await SB.from("plato").insert({...campos, id:id, menu_dia_id:null, orden:1, propio:true});
   if(r.error){ f.textContent=r.error.message; return; }
+  if(nItems.length){
+    const ri=await SB.from("ingrediente").insert(
+      nItems.map(x=>({plato_id:id, alimento:x.alimento, despensa:x.despensa})));
+    if(ri.error) console.warn(ri.error);
+  }
   document.getElementById("nuevo").classList.remove("ver");
   cerrarElegir();
   await cargarCatalogo(true);
@@ -827,6 +1059,268 @@ async function guardarDia(){
   alert(r.ya_existia
     ? "Esta combinación ya estaba guardada como: "+r.origen
     : "Guardado. Ya lo puedes elegir en «El día entero».");
+}
+
+// ---------- configuración (solo administrador) ----------
+
+let cCada=2, cProximo=null;
+
+async function abrirConfig(){
+  document.getElementById("cfallo").textContent="";
+  document.getElementById("config").classList.add("ver");
+  await pintarConfig();
+  await pintarReparto();
+}
+
+async function pintarConfig(){
+  const hoyISO=iso(new Date());
+  const {data:t}=await SB.from("turnos").select("desde,perfil,persona_id")
+    .lte("desde",hoyISO).order("desde",{ascending:false}).limit(60);
+  const actual={};
+  (t||[]).forEach(r=>{ if(actual[r.perfil]===undefined) actual[r.perfil]=r.persona_id; });
+
+  const c=document.getElementById("cahora"); c.innerHTML="";
+  const COLOR=["var(--verde)","var(--morado)","var(--azul)"], NOM=["verde","morado","azul"];
+  [0,1,2].forEach(p=>{
+    const q=PERSONAS.find(x=>x&&x.id===actual[p]);
+    const d=document.createElement("div");
+    d.className="quien2";
+    d.innerHTML='<i style="background:'+COLOR[p]+'"></i>'+(q?q.nombre:"—")+" <em>· perfil "+NOM[p]+"</em>";
+    c.appendChild(d);
+  });
+
+  const {data:n}=await SB.from("turnos").select("desde").gt("desde",hoyISO).order("desde").limit(1);
+  cProximo = (n&&n[0]) ? n[0].desde : null;
+  document.getElementById("cproximo").innerHTML = cProximo
+    ? "El próximo cambio es el <b>"+new Date(cProximo+"T12:00:00")
+        .toLocaleDateString("es",{weekday:"long",day:"numeric",month:"long"})+"</b>."
+    : "No hay más cambios programados.";
+
+  const a=document.getElementById("caplazar"); a.innerHTML="";
+  [1,2,3,4].forEach(k=>{
+    const b=document.createElement("button");
+    b.textContent = k===1 ? "1 semana" : k+" semanas";
+    b.onclick=()=>aplazar(k);
+    a.appendChild(b);
+  });
+
+  const cc=document.getElementById("ccada"); cc.innerHTML="";
+  [1,2,3,4].forEach(k=>{
+    const b=document.createElement("button");
+    b.textContent = k===1 ? "Cada semana" : "Cada "+k+" semanas";
+    b.setAttribute("aria-pressed",k===cCada);
+    b.onclick=()=>{cCada=k;pintarConfig();};
+    cc.appendChild(b);
+  });
+}
+
+// ---------- reparto: crear, mover y quitar ----------
+// Nada se reescribe: cada cambio abre una línea nueva con su fecha.
+
+const BLOQ=[["general","General"],["manana","Mañana"],["mediodia","Mediodía"],["noche","Noche"]];
+let cDia=hoy, tEdit=null, tPerfil=0, tDia=0, tBloque="manana", tDesde=0;
+let tOrden=12, tSitio=null, REPARTO=[];
+
+function proximoLunes(){
+  const d=new Date(); d.setHours(0,0,0,0);
+  d.setDate(d.getDate() + ((8-((d.getDay()+6)%7)-1)%7 || 7));
+  return d;
+}
+const OPC_DESDE=()=>[
+  [0,"Hoy", iso(new Date())],
+  [1,"El próximo lunes", iso(proximoLunes())]
+];
+
+async function pintarReparto(){
+  const dc=document.getElementById("cdia"); dc.innerHTML="";
+  DIAS.forEach((n,i)=>{
+    const b=document.createElement("button");
+    b.textContent=n.slice(0,3);
+    b.setAttribute("aria-pressed",i===cDia);
+    b.onclick=()=>{cDia=i;pintarReparto();};
+    dc.appendChild(b);
+  });
+
+  const {data}=await SB.from("reparto")
+    .select("id,tarea_id,dia,perfil,bloque,orden,nombre,desde,hasta,tareas(nombre)")
+    .eq("dia",cDia+1).is("hasta",null).order("bloque").order("orden");
+  REPARTO=data||[];
+  const c=document.getElementById("ctareas"); c.innerHTML="";
+  const COLOR=["var(--verde)","var(--morado)","var(--azul)"];
+  const ORD={general:0,manana:1,mediodia:2,noche:3};
+  (data||[]).sort((a,b)=>ORD[a.bloque]-ORD[b.bloque]||a.orden-b.orden).forEach(r=>{
+    const b=document.createElement("button");
+    b.className="tit";
+    const et=BLOQ.find(x=>x[0]===r.bloque);
+    b.innerHTML='<i style="background:'+COLOR[r.perfil]+'"></i>'+
+      (r.nombre||(r.tareas&&r.tareas.nombre)||r.tarea_id)+
+      "<em>"+(et?et[1]:r.bloque)+"</em>";
+    b.onclick=()=>abrirTarea(r);
+    c.appendChild(b);
+  });
+  if(!c.children.length) c.innerHTML='<p class="dato">Este día no tiene tareas.</p>';
+}
+
+function abrirTarea(r){
+  tEdit=r||null; tDesde=1;
+  document.getElementById("tfallo").textContent="";
+  document.getElementById("ttitulo").textContent = r ? "cambiar tarea" : "tarea nueva";
+  document.getElementById("taviso").textContent = r
+    ? "Lo anterior a la fecha que elijas se queda como está."
+    : "Se añadirá al reparto desde la fecha que elijas.";
+  document.getElementById("tnombre").value = r ? (r.nombre||(r.tareas&&r.tareas.nombre)||"") : "";
+  tPerfil = r ? r.perfil : 0;
+  tDia    = r ? r.dia-1 : cDia;
+  tBloque = r ? r.bloque : "manana";
+  tOrden = r ? Number(r.orden) : 12;
+  tSitio = null;
+  document.getElementById("tquitar").hidden = !r;
+  pintarTarea();
+  document.getElementById("tarea").classList.add("ver");
+}
+
+function pintarTarea(){
+  const pf=document.getElementById("tperfil"); pf.innerHTML="";
+  ["verde","morado","azul"].forEach((n,i)=>{
+    const b=document.createElement("button");
+    b.textContent=n; b.setAttribute("aria-pressed",i===tPerfil);
+    b.onclick=()=>{tPerfil=i;pintarTarea();};
+    pf.appendChild(b);
+  });
+  const dd=document.getElementById("tdia"); dd.innerHTML="";
+  DIAS.forEach((n,i)=>{
+    const b=document.createElement("button");
+    b.textContent=n.slice(0,3); b.setAttribute("aria-pressed",i===tDia);
+    b.onclick=()=>{tDia=i;tSitio=null;pintarTarea();};
+    dd.appendChild(b);
+  });
+  const bb=document.getElementById("tbloque"); bb.innerHTML="";
+  BLOQ.forEach(([v,txt])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",v===tBloque);
+    b.onclick=()=>{tBloque=v;tSitio=null;pintarTarea();};
+    bb.appendChild(b);
+  });
+  pintarSitio();
+
+  const de=document.getElementById("tdesde"); de.innerHTML="";
+  OPC_DESDE().forEach(([k,txt,f])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",k===tDesde);
+    b.title=f;
+    b.onclick=()=>{tDesde=k;pintarTarea();};
+    de.appendChild(b);
+  });
+}
+
+// En vez de pedir un número, se enseña el bloque y se elige el hueco.
+// El número sale de la media entre la de arriba y la de abajo.
+async function pintarSitio(){
+  const c=document.getElementById("tsitio"); c.innerHTML="";
+  let lista=REPARTO.filter(r=>r.bloque===tBloque && (!tEdit||r.id!==tEdit.id));
+  if(tDia!==cDia){
+    const {data}=await SB.from("reparto").select("id,perfil,bloque,orden,nombre,tareas(nombre)")
+      .eq("dia",tDia+1).eq("bloque",tBloque).is("hasta",null).order("orden");
+    lista=(data||[]).filter(r=>!tEdit||r.id!==tEdit.id);
+  }
+  lista.sort((a,b)=>a.orden-b.orden);
+  const COLOR=["var(--verde)","var(--morado)","var(--azul)"];
+
+  const hueco=(k,antes,despues,txt)=>{
+    const b=document.createElement("button");
+    b.textContent=txt;
+    b.setAttribute("aria-pressed", tSitio===k);
+    b.onclick=()=>{
+      tSitio=k;
+      tOrden = antes==null ? (despues!=null? despues-1 : 12)
+             : despues==null ? antes+1
+             : (antes+despues)/2;
+      pintarSitio();
+    };
+    c.appendChild(b);
+  };
+
+  if(!lista.length){
+    if(tSitio===null){ tSitio=0; tOrden=12; }
+    hueco(0,null,null,"Única tarea del bloque");
+    return;
+  }
+  hueco(0,null,lista[0].orden,"↑ La primera");
+  lista.forEach((r,i)=>{
+    const d=document.createElement("div");
+    d.className="fija";
+    d.innerHTML='<i style="background:'+COLOR[r.perfil]+'"></i>'+
+      (r.nombre||(r.tareas&&r.tareas.nombre)||r.id);
+    c.appendChild(d);
+    if(i<lista.length-1) hueco(i+1,r.orden,lista[i+1].orden,"↕ Aquí en medio");
+  });
+  hueco(lista.length,lista[lista.length-1].orden,null,"↓ La última");
+
+  // Si se está editando y no se ha tocado nada, se marca su sitio actual.
+  if(tSitio===null && tEdit){
+    const k=lista.filter(r=>r.orden<tOrden).length;
+    const b=c.querySelectorAll("button")[k];
+    if(b) b.setAttribute("aria-pressed",true);
+  }
+}
+
+async function guardarTarea(){
+  const f=document.getElementById("tfallo");
+  const nombre=document.getElementById("tnombre").value.trim();
+  if(!nombre){ f.textContent="Ponle un nombre."; return; }
+  const desde=OPC_DESDE().find(x=>x[0]===tDesde)[2];
+  const orden=tOrden;
+  f.textContent="Guardando…";
+
+  if(tEdit){
+    const {error}=await SB.rpc("mover_tarea",{
+      p_id:tEdit.id, p_desde:desde, p_perfil:tPerfil, p_dia:tDia+1,
+      p_bloque:tBloque, p_orden:orden, p_nombre:nombre});
+    if(error){ f.textContent=error.message; return; }
+  } else {
+    const slug=nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,28);
+    const {error}=await SB.rpc("anadir_tarea",{
+      p_tarea:slug, p_nombre:nombre, p_tipo:"casa", p_dia:tDia+1,
+      p_perfil:tPerfil, p_bloque:tBloque, p_orden:orden, p_desde:desde});
+    if(error){ f.textContent=error.message; return; }
+  }
+  document.getElementById("tarea").classList.remove("ver");
+  await pintarReparto(); await cargarSemana(); pintar();
+}
+
+async function quitarTarea(){
+  if(!tEdit) return;
+  const desde=OPC_DESDE().find(x=>x[0]===tDesde)[2];
+  if(!confirm("Quitar «"+(tEdit.nombre||tEdit.tarea_id)+"» del reparto desde el "+desde+
+              ".\n\nLo anterior se conserva en el histórico. ¿Seguir?")) return;
+  const {error}=await SB.rpc("quitar_tarea",{p_id:tEdit.id,p_desde:desde});
+  if(error){ document.getElementById("tfallo").textContent=error.message; return; }
+  document.getElementById("tarea").classList.remove("ver");
+  await pintarReparto(); await cargarSemana(); pintar();
+}
+
+async function aplazar(semanas){
+  const f=document.getElementById("cfallo");
+  f.textContent="Aplazando…";
+  const {data,error}=await SB.rpc("aplazar_rotacion",{semanas:semanas});
+  if(error){ f.textContent=error.message; return; }
+  f.textContent="Hecho. Ahora el cambio es el "+
+    new Date(data+"T12:00:00").toLocaleDateString("es",{day:"numeric",month:"long"})+".";
+  await pintarConfig(); await cargarGiro();
+  document.getElementById("giro").textContent = giro ? "Los perfiles rotan el lunes "+giro+"." : "";
+}
+
+async function cambiarCadencia(){
+  const f=document.getElementById("cfallo");
+  if(!cProximo){ f.textContent="No hay un próximo cambio del que partir."; return; }
+  if(!confirm("A partir del "+cProximo+" los perfiles rotarán cada "+cCada+
+              (cCada===1?" semana":" semanas")+".\n\nSe rehacen los turnos futuros. ¿Seguir?")) return;
+  f.textContent="Rehaciendo…";
+  const {error}=await SB.rpc("regenerar_turnos",{desde_f:cProximo,cada_semanas:cCada});
+  if(error){ f.textContent=error.message; return; }
+  f.textContent="Listo.";
+  await pintarConfig(); await cargarSemana(); await cargarGiro(); pintar();
 }
 
 // ---------- lista de la compra ----------
@@ -964,7 +1458,60 @@ function verReceta(pl,fi,momento){
   if(pl.nota)         h+='<p class="nota">'+pl.nota+"</p>";
   if(!h) h='<p class="nota">Sin receta: es un plato directo.</p>';
   document.getElementById("rcuerpo").innerHTML=h;
+
+  // Editar y borrar tocan la biblioteca entera, no solo este día.
+  const adm=document.getElementById("radmin"), don=document.getElementById("rdonde");
+  adm.hidden = !(yo && yo.admin && pl.id);
+  if(!adm.hidden){
+    don.textContent="…";
+    cargarCatalogo().then(()=>{
+      const dias=DIAPLATO.filter(x=>x.plato_id===pl.id).length;
+      don.textContent = dias
+        ? "Editar o borrar cambia el plato en la biblioteca entera: aparece en "
+          +dias+(dias===1?" día":" días")+" y en las fechas donde ya se puso."
+        : "Plato de casa, no pertenece a ningún día de la biblioteca.";
+    });
+    document.getElementById("reditar").onclick=()=>editarPlato(pl);
+    document.getElementById("rborrar").onclick=()=>borrarPlato(pl);
+  }
   document.getElementById("receta").classList.add("ver");
+}
+
+// ---------- editar y borrar (solo administrador) ----------
+
+let editando=null;
+
+function editarPlato(pl){
+  document.getElementById("receta").classList.remove("ver");
+  const p=CATALOGO.find(c=>c.id===pl.id);
+  editando=pl.id;
+  document.querySelector("#nuevo h3").textContent="editar plato";
+  document.getElementById("nguardar").textContent="Guardar cambios";
+  document.getElementById("nnombre").value=pl.nombre||"";
+  document.getElementById("ningr").value=pl.ingredientes||"";
+  document.getElementById("nprep").value=pl.preparacion||"";
+  nMomento=(p&&p.momento)||"cena";
+  nTemp=(p&&p.temporada)||"todo";
+  document.getElementById("nfallo").textContent="";
+  nItems=[]; refrescarChips(); pintarNuevo();
+  document.getElementById("nuevo").classList.add("ver");
+}
+
+async function borrarPlato(pl){
+  await cargarCatalogo();
+  const dias=DIAPLATO.filter(x=>x.plato_id===pl.id).length;
+  const {count}=await SB.from("menu_asignado")
+    .select("id",{count:"exact",head:true}).eq("plato_id",pl.id);
+  const veces=count||0;
+  let aviso="Borrar «"+pl.nombre+"».";
+  if(dias)  aviso+="\n\nEstá en "+dias+(dias===1?" día":" días")+" de la biblioteca.";
+  if(veces) aviso+="\nY puesto en "+veces+(veces===1?" fecha":" fechas")+" del calendario, que se quedarán sin plato.";
+  aviso+="\n\n¿Seguro?";
+  if(!confirm(aviso)) return;
+  const r=await SB.from("plato").delete().eq("id",pl.id);
+  if(r.error){ alert(r.error.message); return; }
+  document.getElementById("receta").classList.remove("ver");
+  await cargarCatalogo(true); await cargarMenu(); pintar();
 }
 
 async function cargarGiro(){
@@ -1232,6 +1779,7 @@ addEventListener("resize",()=>{if(previa.classList.contains("ver"))pintarHoja();
 document.getElementById("ecrear").onclick=abrirNuevo;
 document.getElementById("ncancelar").onclick=()=>document.getElementById("nuevo").classList.remove("ver");
 document.getElementById("nguardar").onclick=crearPlato;
+document.getElementById("ningr").oninput=refrescarChips;
 document.getElementById("nuevo").onclick=(e)=>{ if(e.target.id==="nuevo") e.target.classList.remove("ver"); };
 document.getElementById("guardarDia").onclick=guardarDia;
 document.getElementById("rellenar").onclick=abrirRellenar;
@@ -1281,8 +1829,11 @@ SB.auth.onAuthStateChange(async(_e,sesion)=>{
       if(quien===-1) quien=yoIdx;
       const col=["var(--verde)","var(--morado)","var(--azul)"][yoIdx];
       document.getElementById("yo").innerHTML=
-        '<b style="background:'+col+'"></b>'+data.nombre+(data.admin?" · admin":"")+' <i>· salir</i>';
+        '<b style="background:'+col+'"></b>'+data.nombre+
+        (data.admin?' <u>· ajustes</u>':"")+' <i>· salir</i>';
       document.getElementById("yo").querySelector("i").onclick=()=>SB.auth.signOut();
+      const u=document.getElementById("yo").querySelector("u");
+      if(u) u.onclick=abrirConfig;
     }
   }
   await cargarSemana();
@@ -1293,7 +1844,35 @@ SB.auth.onAuthStateChange(async(_e,sesion)=>{
   pintar(); escuchar();
 });
 
+// iOS guarda el acceso directo en caché y puede quedarse con una versión vieja.
+// Preguntamos por el archivo saltándonos la caché y avisamos si no coincide.
+let ultimoCheck=0;
+async function comprobarVersion(){
+  if(Date.now()-ultimoCheck < 300000) return;
+  ultimoCheck=Date.now();
+  try{
+    const r=await fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"});
+    const t=await r.text();
+    const m=t.match(/const VERSION="([^"]+)"/);
+    if(m && m[1]!==VERSION) document.getElementById("aviso").classList.add("ver");
+  }catch(e){}
+}
+document.getElementById("recargar").onclick=()=>location.reload();
+document.getElementById("ccerrar2").onclick=()=>document.getElementById("config").classList.remove("ver");
+document.getElementById("capliCada").onclick=cambiarCadencia;
+document.getElementById("canadir").onclick=()=>abrirTarea(null);
+document.getElementById("tguardar").onclick=guardarTarea;
+document.getElementById("tquitar").onclick=quitarTarea;
+document.getElementById("tcancelar").onclick=()=>document.getElementById("tarea").classList.remove("ver");
+document.getElementById("tarea").onclick=(e)=>{ if(e.target.id==="tarea") e.target.classList.remove("ver"); };
+document.getElementById("config").onclick=(e)=>{ if(e.target.id==="config") e.target.classList.remove("ver"); };
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="visible") comprobarVersion();
+});
+
 (async()=>{
+  document.getElementById("version").textContent="v"+VERSION;
+  comprobarVersion();
   const {data}=await SB.auth.getSession();
   if(!data.session) pantalla.classList.add("ver");
 })();
