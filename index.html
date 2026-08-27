@@ -264,6 +264,7 @@ h1{
 #tarea .caja{width:100%;max-height:90vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
   padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.30)}
 #tarea h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 4px;letter-spacing:-.02em;text-transform:lowercase}
+#tarea .cual{font:600 17px/1.3 "Inter",sans-serif;color:var(--blanco);margin:2px 0 4px}
 #tarea .aviso2{font:400 13px/1.5 "Inter",sans-serif;color:var(--tenue);margin:0 0 6px}
 #tarea label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
   text-transform:uppercase;color:var(--tenue);margin:16px 0 7px}
@@ -280,6 +281,29 @@ h1{
   background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
 #tarea .peligro{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,154,154,.45);
   border-radius:12px;background:transparent;color:#FF9A9A;font:600 14px "Inter",sans-serif;cursor:pointer}
+#config .cat{margin:4px 0 0}
+#config .cat button{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:6px;
+  padding:11px 13px;border-radius:11px;border:1px solid var(--borde);background:var(--carta);
+  color:var(--blanco);font:500 14.5px "Inter",sans-serif;cursor:pointer;
+}
+#config .cat button em{font-style:normal;margin-left:auto;font:500 11.5px "JetBrains Mono",monospace;color:var(--tenue)}
+
+#renombra{position:fixed;inset:0;z-index:65;display:none;align-items:flex-end;background:rgba(6,10,22,.8)}
+#renombra.ver{display:flex}
+#renombra .caja{width:100%;background:#1A2138;border-radius:20px 20px 0 0;padding:24px 20px 26px;
+  border-top:1px solid rgba(255,255,255,.30)}
+#renombra h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 4px;letter-spacing:-.02em;text-transform:lowercase}
+#renombra p{font:400 13px/1.5 "Inter",sans-serif;color:var(--tenue);margin:0 0 16px}
+#renombra input{width:100%;padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.26);
+  background:rgba(255,255,255,.06);color:var(--blanco);font:500 15px "Inter",sans-serif}
+#renombra input:focus{outline:none;border-color:rgba(255,255,255,.45)}
+#renombra .ok2{width:100%;margin-top:18px;padding:14px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 15px "Inter",sans-serif;cursor:pointer}
+#renombra .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);border-radius:12px;
+  background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#rnfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
+
 #tsitio{display:flex;flex-direction:column;gap:0;margin-top:2px}
 #tsitio button{
   text-align:left;padding:10px 13px;border-radius:10px;border:1px dashed rgba(255,255,255,.30);
@@ -531,12 +555,25 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="renombra">
+  <div class="caja">
+    <h3>cambiar el nombre</h3>
+    <p id="rntexto"></p>
+    <input id="rnnombre" autocomplete="off">
+    <p id="rnfallo"></p>
+    <button class="ok2" id="rnguardar">Guardar</button>
+    <button class="no2" id="rncancelar">Cancelar</button>
+  </div>
+</div>
 <div id="tarea">
   <div class="caja">
     <h3 id="ttitulo"></h3>
     <p class="aviso2" id="taviso"></p>
-    <label for="tnombre">Nombre</label>
-    <input id="tnombre" autocomplete="off">
+    <p class="cual" id="ttarea" hidden></p>
+    <div id="tnuevo" hidden>
+      <label for="tnombre">Nombre de la tarea nueva</label>
+      <input id="tnombre" autocomplete="off">
+    </div>
     <label>Perfil</label>
     <div class="fila" id="tperfil"></div>
     <label>Día</label>
@@ -564,6 +601,10 @@ h1{
     <h4>Cada cuánto rotan</h4>
     <div class="fila" id="ccada"></div>
     <button class="ok2" id="capliCada">Aplicar desde el próximo cambio</button>
+    <h4>Catálogo de tareas</h4>
+    <p class="dato">Aquí viven los nombres. Cambiar uno lo cambia <b>en todos los días</b> donde aparece.</p>
+    <div class="cat" id="ccatalogo"></div>
+
     <h4>Reparto de tareas</h4>
     <p class="dato">Los cambios valen <b>desde la fecha que elijas</b>. Lo anterior no se toca.</p>
     <div class="fila" id="cdia"></div>
@@ -703,7 +744,7 @@ const SB = supabase.createClient(
 
 // Cambiar en cada publicación. Sirve para detectar que hay versión nueva
 // cuando iOS se queda con la vieja en el acceso directo.
-const VERSION="20260826.7";
+const VERSION="20260827.1";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
@@ -1069,6 +1110,7 @@ async function abrirConfig(){
   document.getElementById("cfallo").textContent="";
   document.getElementById("config").classList.add("ver");
   await pintarConfig();
+  await pintarCatalogo();
   await pintarReparto();
 }
 
@@ -1131,6 +1173,48 @@ const OPC_DESDE=()=>[
   [1,"El próximo lunes", iso(proximoLunes())]
 ];
 
+// El catálogo: los nombres. Nada de días ni perfiles.
+let CAT=[], renombrando=null;
+
+async function pintarCatalogo(){
+  const {data}=await SB.from("tareas").select("id,nombre,tipo").order("nombre");
+  CAT=data||[];
+  const {data:r}=await SB.from("reparto").select("tarea_id").is("hasta",null);
+  const veces={}; (r||[]).forEach(x=>veces[x.tarea_id]=(veces[x.tarea_id]||0)+1);
+  const c=document.getElementById("ccatalogo"); c.innerHTML="";
+  CAT.forEach(t=>{
+    const n=veces[t.id]||0;
+    const b=document.createElement("button");
+    b.innerHTML=t.nombre+"<em>"+(n? n+(n===1?" línea":" líneas") : "sin usar")+"</em>";
+    b.onclick=()=>abrirRenombrar(t,n);
+    c.appendChild(b);
+  });
+}
+
+function abrirRenombrar(t,n){
+  renombrando=t;
+  document.getElementById("rntexto").textContent =
+    n ? "Aparece en "+n+(n===1?" línea":" líneas")+" del reparto. El cambio vale para todas."
+      : "No está en ningún día del reparto ahora mismo.";
+  document.getElementById("rnnombre").value=t.nombre;
+  document.getElementById("rnfallo").textContent="";
+  document.getElementById("renombra").classList.add("ver");
+}
+
+async function guardarNombre(){
+  const f=document.getElementById("rnfallo");
+  const nuevo=document.getElementById("rnnombre").value.trim();
+  if(!nuevo){ f.textContent="Ponle un nombre."; return; }
+  f.textContent="Guardando…";
+  const r1=await SB.from("tareas").update({nombre:nuevo}).eq("id",renombrando.id);
+  if(r1.error){ f.textContent=r1.error.message; return; }
+  // Los nombres sueltos de cada línea se borran: así todas heredan el del catálogo.
+  const r2=await SB.from("reparto").update({nombre:null}).eq("tarea_id",renombrando.id);
+  if(r2.error){ f.textContent=r2.error.message; return; }
+  document.getElementById("renombra").classList.remove("ver");
+  await pintarCatalogo(); await pintarReparto(); await cargarSemana(); pintar();
+}
+
 async function pintarReparto(){
   const dc=document.getElementById("cdia"); dc.innerHTML="";
   DIAS.forEach((n,i)=>{
@@ -1164,11 +1248,15 @@ async function pintarReparto(){
 function abrirTarea(r){
   tEdit=r||null; tDesde=1;
   document.getElementById("tfallo").textContent="";
-  document.getElementById("ttitulo").textContent = r ? "cambiar tarea" : "tarea nueva";
+  document.getElementById("ttitulo").textContent = r ? "cambiar el reparto" : "tarea nueva";
   document.getElementById("taviso").textContent = r
-    ? "Lo anterior a la fecha que elijas se queda como está."
+    ? "Aquí se decide quién y cuándo. El nombre se cambia en el catálogo."
     : "Se añadirá al reparto desde la fecha que elijas.";
-  document.getElementById("tnombre").value = r ? (r.nombre||(r.tareas&&r.tareas.nombre)||"") : "";
+  document.getElementById("tnuevo").hidden = !!r;
+  document.getElementById("tnombre").value = "";
+  document.getElementById("ttarea").textContent = r
+    ? (r.nombre||(r.tareas&&r.tareas.nombre)||r.tarea_id) : "";
+  document.getElementById("ttarea").hidden = !r;
   tPerfil = r ? r.perfil : 0;
   tDia    = r ? r.dia-1 : cDia;
   tBloque = r ? r.bloque : "manana";
@@ -1267,15 +1355,16 @@ async function pintarSitio(){
 async function guardarTarea(){
   const f=document.getElementById("tfallo");
   const nombre=document.getElementById("tnombre").value.trim();
-  if(!nombre){ f.textContent="Ponle un nombre."; return; }
+  if(!tEdit && !nombre){ f.textContent="Ponle un nombre."; return; }
   const desde=OPC_DESDE().find(x=>x[0]===tDesde)[2];
   const orden=tOrden;
   f.textContent="Guardando…";
 
   if(tEdit){
+    // El nombre no viaja: vive en el catálogo.
     const {error}=await SB.rpc("mover_tarea",{
       p_id:tEdit.id, p_desde:desde, p_perfil:tPerfil, p_dia:tDia+1,
-      p_bloque:tBloque, p_orden:orden, p_nombre:nombre});
+      p_bloque:tBloque, p_orden:orden});
     if(error){ f.textContent=error.message; return; }
   } else {
     const slug=nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
@@ -1286,7 +1375,7 @@ async function guardarTarea(){
     if(error){ f.textContent=error.message; return; }
   }
   document.getElementById("tarea").classList.remove("ver");
-  await pintarReparto(); await cargarSemana(); pintar();
+  await pintarCatalogo(); await pintarReparto(); await cargarSemana(); pintar();
 }
 
 async function quitarTarea(){
@@ -1861,6 +1950,9 @@ document.getElementById("recargar").onclick=()=>location.reload();
 document.getElementById("ccerrar2").onclick=()=>document.getElementById("config").classList.remove("ver");
 document.getElementById("capliCada").onclick=cambiarCadencia;
 document.getElementById("canadir").onclick=()=>abrirTarea(null);
+document.getElementById("rnguardar").onclick=guardarNombre;
+document.getElementById("rncancelar").onclick=()=>document.getElementById("renombra").classList.remove("ver");
+document.getElementById("renombra").onclick=(e)=>{ if(e.target.id==="renombra") e.target.classList.remove("ver"); };
 document.getElementById("tguardar").onclick=guardarTarea;
 document.getElementById("tquitar").onclick=quitarTarea;
 document.getElementById("tcancelar").onclick=()=>document.getElementById("tarea").classList.remove("ver");
