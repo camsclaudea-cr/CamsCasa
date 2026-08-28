@@ -281,6 +281,40 @@ h1{
   background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
 #tarea .peligro{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,154,154,.45);
   border-radius:12px;background:transparent;color:#FF9A9A;font:600 14px "Inter",sans-serif;cursor:pointer}
+#config .desde{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;
+  font:400 13.5px "Inter",sans-serif;color:var(--suave);
+}
+#config .desde .fila{margin:0}
+#config .fila.perfiles button i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:-1px}
+
+#ctareas .bl{
+  display:flex;align-items:center;gap:10px;margin:16px 0 2px;
+  font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--tenue);
+}
+#ctareas .bl span{flex:1;height:1px;background:var(--borde)}
+#ctareas .hueco{
+  display:block;width:100%;height:26px;margin:2px 0;border-radius:8px;
+  border:1px dashed rgba(255,255,255,.22);background:transparent;
+  color:var(--tenue);font:700 14px/22px "Inter",sans-serif;cursor:pointer;
+}
+#ctareas .hueco:hover,#ctareas .hueco.diana{
+  border-color:var(--azul);color:var(--azul);background:rgba(74,158,255,.10);border-style:solid;
+}
+#ctareas .lin2{
+  display:flex;align-items:center;gap:10px;padding:11px 12px;margin:0;
+  border-radius:11px;border:1px solid var(--borde);background:var(--carta);
+  font:500 14.5px "Inter",sans-serif;
+}
+#ctareas .lin2.moviendo{border-color:var(--azul);background:rgba(74,158,255,.12)}
+#ctareas .lin2 i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+#ctareas .lin2 b{flex:1;font-weight:500;text-align:left;background:none;border:none;color:var(--blanco);
+  font:500 14.5px "Inter",sans-serif;cursor:pointer;padding:0}
+#ctareas .lin2 u{color:var(--azul);font:600 12px "Inter",sans-serif;text-decoration:none;cursor:pointer}
+#ctareas .lin2 em{font-style:normal;color:#FF9A9A;font-size:15px;cursor:pointer;padding:0 2px}
+#ctareas .nada2{font:400 13.5px "Inter",sans-serif;color:var(--tenue);padding:8px 0}
+
 #config .cat{margin:4px 0 0}
 #config .cat button{
   display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin-bottom:6px;
@@ -288,6 +322,26 @@ h1{
   color:var(--blanco);font:500 14.5px "Inter",sans-serif;cursor:pointer;
 }
 #config .cat button em{font-style:normal;margin-left:auto;font:500 11.5px "JetBrains Mono",monospace;color:var(--tenue)}
+
+#elegirt{position:fixed;inset:0;z-index:66;display:none;align-items:flex-end;background:rgba(6,10,22,.8)}
+#elegirt.ver{display:flex}
+#elegirt .caja{width:100%;max-height:88vh;overflow:auto;background:#1A2138;border-radius:20px 20px 0 0;
+  padding:24px 20px 26px;border-top:1px solid rgba(255,255,255,.30)}
+#elegirt h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 4px;letter-spacing:-.02em;text-transform:lowercase}
+#elegirt > .caja > p:first-of-type{font:600 13px "Inter",sans-serif;color:var(--ambar);margin:0 0 16px}
+#elegirTarea button{display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px 13px;
+  border-radius:11px;border:1px solid var(--borde);background:var(--carta);color:var(--blanco);
+  font:500 14.5px "Inter",sans-serif;cursor:pointer}
+#elegirt label{display:block;font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue);margin:20px 0 7px}
+#elegirt input{width:100%;padding:11px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.26);
+  background:rgba(255,255,255,.06);color:var(--blanco);font:500 15px "Inter",sans-serif}
+#elegirt input:focus{outline:none;border-color:rgba(255,255,255,.45)}
+#elegirt .ok2{width:100%;margin-top:12px;padding:13px;border:none;border-radius:12px;
+  background:var(--azul);color:#0D1428;font:700 14px "Inter",sans-serif;cursor:pointer}
+#elegirt .no2{width:100%;margin-top:8px;padding:13px;border:1px solid rgba(255,255,255,.32);border-radius:12px;
+  background:transparent;color:var(--suave);font:600 14px "Inter",sans-serif;cursor:pointer}
+#etfallo{color:#FF8080;font:500 13px "Inter",sans-serif;margin:12px 0 0;min-height:18px}
 
 #renombra{position:fixed;inset:0;z-index:65;display:none;align-items:flex-end;background:rgba(6,10,22,.8)}
 #renombra.ver{display:flex}
@@ -555,6 +609,18 @@ h1{
   </div>
   <div id="lienzo"><div id="hoja"></div></div>
 </div>
+<div id="elegirt">
+  <div class="caja">
+    <h3>añadir tarea</h3>
+    <p id="etdonde"></p>
+    <div id="elegirTarea"></div>
+    <label for="etnueva">O crear una nueva</label>
+    <input id="etnueva" placeholder="Regar las plantas" autocomplete="off">
+    <button class="ok2" id="etcrear">Crear y añadir</button>
+    <p id="etfallo"></p>
+    <button class="no2" id="etcancelar">Cancelar</button>
+  </div>
+</div>
 <div id="renombra">
   <div class="caja">
     <h3>cambiar el nombre</h3>
@@ -605,11 +671,14 @@ h1{
     <p class="dato">Aquí viven los nombres. Cambiar uno lo cambia <b>en todos los días</b> donde aparece.</p>
     <div class="cat" id="ccatalogo"></div>
 
-    <h4>Reparto de tareas</h4>
-    <p class="dato">Los cambios valen <b>desde la fecha que elijas</b>. Lo anterior no se toca.</p>
+    <h4>Reparto de tareas en los perfiles</h4>
+    <div class="desde">
+      <span>Los cambios valen desde</span>
+      <span class="fila" id="cdesde"></span>
+    </div>
     <div class="fila" id="cdia"></div>
+    <div class="fila" id="cperfil"></div>
     <div class="tlista" id="ctareas"></div>
-    <button class="anadir" id="canadir">+ Añadir una tarea a este día</button>
 
     <p id="cfallo"></p>
     <button class="no2" id="ccerrar2">Cerrar</button>
@@ -744,7 +813,7 @@ const SB = supabase.createClient(
 
 // Cambiar en cada publicación. Sirve para detectar que hay versión nueva
 // cuando iOS se queda con la vieja en el acceso directo.
-const VERSION="20260827.1";
+const VERSION="20260827.2";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
@@ -1215,34 +1284,155 @@ async function guardarNombre(){
   await pintarCatalogo(); await pintarReparto(); await cargarSemana(); pintar();
 }
 
+let cPerfil=-1, cDesde=1, moviendo=null;
+const COLPERF=["var(--verde)","var(--morado)","var(--azul)"];
+const NOMPERF=["verde","morado","azul"];
+
+function fechaDesde(){ return OPC_DESDE().find(x=>x[0]===cDesde)[2]; }
+
 async function pintarReparto(){
+  // desde cuándo, una sola vez para toda la sesión
+  const de=document.getElementById("cdesde"); de.innerHTML="";
+  OPC_DESDE().forEach(([k,txt])=>{
+    const b=document.createElement("button");
+    b.textContent=txt; b.setAttribute("aria-pressed",k===cDesde);
+    b.onclick=()=>{cDesde=k;pintarReparto();};
+    de.appendChild(b);
+  });
+
   const dc=document.getElementById("cdia"); dc.innerHTML="";
   DIAS.forEach((n,i)=>{
     const b=document.createElement("button");
     b.textContent=n.slice(0,3);
     b.setAttribute("aria-pressed",i===cDia);
-    b.onclick=()=>{cDia=i;pintarReparto();};
+    b.onclick=()=>{cDia=i;moviendo=null;pintarReparto();};
     dc.appendChild(b);
   });
 
-  const {data}=await SB.from("reparto")
-    .select("id,tarea_id,dia,perfil,bloque,orden,nombre,desde,hasta,tareas(nombre)")
-    .eq("dia",cDia+1).is("hasta",null).order("bloque").order("orden");
-  REPARTO=data||[];
-  const c=document.getElementById("ctareas"); c.innerHTML="";
-  const COLOR=["var(--verde)","var(--morado)","var(--azul)"];
-  const ORD={general:0,manana:1,mediodia:2,noche:3};
-  (data||[]).sort((a,b)=>ORD[a.bloque]-ORD[b.bloque]||a.orden-b.orden).forEach(r=>{
+  // Perfiles por color: quién los lleva lo decide la rotación, no el reparto.
+  const pc=document.getElementById("cperfil");
+  pc.className="fila perfiles"; pc.innerHTML="";
+  [[-1,"Todos",null],[0,"Verde",0],[1,"Morado",1],[2,"Azul",2]].forEach(([k,txt,ci])=>{
     const b=document.createElement("button");
-    b.className="tit";
-    const et=BLOQ.find(x=>x[0]===r.bloque);
-    b.innerHTML='<i style="background:'+COLOR[r.perfil]+'"></i>'+
-      (r.nombre||(r.tareas&&r.tareas.nombre)||r.tarea_id)+
-      "<em>"+(et?et[1]:r.bloque)+"</em>";
-    b.onclick=()=>abrirTarea(r);
+    b.innerHTML=(ci!==null?'<i style="background:'+COLPERF[ci]+'"></i>':"")+txt;
+    b.setAttribute("aria-pressed",k===cPerfil);
+    b.onclick=()=>{cPerfil=k;moviendo=null;pintarReparto();};
+    pc.appendChild(b);
+  });
+
+  const {data}=await SB.from("reparto")
+    .select("linea,id,tarea_id,dia,perfil,bloque,orden,desde,hasta,tareas(nombre)")
+    .eq("dia",cDia+1).is("hasta",null);
+  REPARTO=data||[];
+
+  const c=document.getElementById("ctareas"); c.innerHTML="";
+  BLOQ.forEach(([bv,btxt])=>{
+    const cab=document.createElement("div");
+    cab.className="bl";
+    cab.innerHTML=btxt+"<span></span>";
+    c.appendChild(cab);
+
+    const lista=REPARTO
+      .filter(r=>r.bloque===bv && (cPerfil<0||r.perfil===cPerfil))
+      .sort((a,b)=>a.orden-b.orden);
+
+    hueco(c,bv,lista.length?lista[0].orden-1:12,"↑");
+    lista.forEach((r,i)=>{
+      const d=document.createElement("div");
+      d.className="lin2"+(moviendo&&moviendo.linea===r.linea?" moviendo":"");
+      d.innerHTML='<i style="background:'+COLPERF[r.perfil]+'"></i>'+
+        "<b>"+(r.tareas&&r.tareas.nombre||r.tarea_id)+"</b>"+
+        "<u>"+(moviendo&&moviendo.linea===r.linea?"cancelar":"mover")+"</u>"+
+        "<em>🗑</em>";
+      d.querySelector("b").onclick=()=>abrirTarea(r);
+      d.querySelector("u").onclick=()=>{
+        moviendo=(moviendo&&moviendo.linea===r.linea)?null:r; pintarReparto();
+      };
+      d.querySelector("em").onclick=()=>quitarLinea(r);
+      c.appendChild(d);
+      const sig=lista[i+1];
+      hueco(c,bv,sig?(r.orden+sig.orden)/2:r.orden+1,"+");
+    });
+    if(!lista.length){
+      const p=document.createElement("p");
+      p.className="nada2"; p.textContent="Vacío.";
+      c.insertBefore(p,c.lastChild);
+    }
+  });
+}
+
+// Cada hueco vale para dos cosas: soltar lo que estás moviendo, o añadir algo nuevo.
+function hueco(c,bloque,orden,txt){
+  const b=document.createElement("button");
+  b.className="hueco"+(moviendo?" diana":"");
+  b.textContent=moviendo?"↓ soltar aquí":txt;
+  b.onclick=()=>{
+    if(moviendo) soltarAqui(bloque,orden);
+    else nuevaEnHueco(bloque,orden);
+  };
+  c.appendChild(b);
+}
+
+async function soltarAqui(bloque,orden){
+  const r=moviendo; moviendo=null;
+  const {error}=await SB.rpc("mover_tarea",{
+    p_id:r.id, p_desde:fechaDesde(), p_perfil:r.perfil, p_dia:cDia+1,
+    p_bloque:bloque, p_orden:orden});
+  if(error){ document.getElementById("cfallo").textContent=error.message; }
+  await pintarReparto(); await cargarSemana(); pintar();
+}
+
+async function quitarLinea(r){
+  const n=(r.tareas&&r.tareas.nombre)||r.tarea_id;
+  if(!confirm("Quitar «"+n+"» del "+DIAS[cDia]+" ("+NOMPERF[r.perfil]+") desde el "+
+              fechaDesde()+".\n\nLo anterior se conserva. ¿Seguir?")) return;
+  const {error}=await SB.rpc("quitar_tarea",{p_id:r.id,p_desde:fechaDesde()});
+  if(error){ document.getElementById("cfallo").textContent=error.message; return; }
+  await pintarReparto(); await cargarSemana(); pintar();
+}
+
+// El + abre el catálogo. Con "Todos" puesto, se añade a los tres perfiles.
+let hBloque=null, hOrden=0;
+async function nuevaEnHueco(bloque,orden){
+  hBloque=bloque; hOrden=orden;
+  await pintarCatalogo();
+  const c=document.getElementById("elegirTarea"); c.innerHTML="";
+  CAT.forEach(t=>{
+    const b=document.createElement("button");
+    b.textContent=t.nombre;
+    b.onclick=()=>ponerEnHueco(t.id,t.nombre);
     c.appendChild(b);
   });
-  if(!c.children.length) c.innerHTML='<p class="dato">Este día no tiene tareas.</p>';
+  document.getElementById("etnueva").value="";
+  document.getElementById("etfallo").textContent="";
+  document.getElementById("etdonde").textContent=
+    DIAS[cDia]+" · "+BLOQ.find(x=>x[0]===bloque)[1]+" · "+
+    (cPerfil<0?"los tres perfiles":"perfil "+NOMPERF[cPerfil]);
+  document.getElementById("elegirt").classList.add("ver");
+}
+
+async function ponerEnHueco(tareaId,nombre){
+  const f=document.getElementById("etfallo");
+  const perfiles = cPerfil<0 ? [0,1,2] : [cPerfil];
+  f.textContent="Añadiendo…";
+  for(const pf of perfiles){
+    const {error}=await SB.rpc("anadir_tarea",{
+      p_tarea:tareaId, p_nombre:nombre, p_tipo:"casa",
+      p_dia:cDia+1, p_perfil:pf, p_bloque:hBloque,
+      p_orden:hOrden, p_desde:fechaDesde()});
+    if(error){ f.textContent=error.message; return; }
+  }
+  document.getElementById("elegirt").classList.remove("ver");
+  await pintarCatalogo(); await pintarReparto(); await cargarSemana(); pintar();
+}
+
+async function crearYPoner(){
+  const f=document.getElementById("etfallo");
+  const nombre=document.getElementById("etnueva").value.trim();
+  if(!nombre){ f.textContent="Ponle un nombre."; return; }
+  const slug=nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,28);
+  await ponerEnHueco(slug,nombre);
 }
 
 function abrirTarea(r){
@@ -1949,8 +2139,10 @@ async function comprobarVersion(){
 document.getElementById("recargar").onclick=()=>location.reload();
 document.getElementById("ccerrar2").onclick=()=>document.getElementById("config").classList.remove("ver");
 document.getElementById("capliCada").onclick=cambiarCadencia;
-document.getElementById("canadir").onclick=()=>abrirTarea(null);
 document.getElementById("rnguardar").onclick=guardarNombre;
+document.getElementById("etcrear").onclick=crearYPoner;
+document.getElementById("etcancelar").onclick=()=>document.getElementById("elegirt").classList.remove("ver");
+document.getElementById("elegirt").onclick=(e)=>{ if(e.target.id==="elegirt") e.target.classList.remove("ver"); };
 document.getElementById("rncancelar").onclick=()=>document.getElementById("renombra").classList.remove("ver");
 document.getElementById("renombra").onclick=(e)=>{ if(e.target.id==="renombra") e.target.classList.remove("ver"); };
 document.getElementById("tguardar").onclick=guardarTarea;
