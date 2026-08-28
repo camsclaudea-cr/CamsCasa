@@ -286,7 +286,20 @@ h1{
   font:400 13.5px "Inter",sans-serif;color:var(--suave);
 }
 #config .desde .fila{margin:0}
+#config .fila.dias{gap:4px;flex-wrap:nowrap}
+#config .fila.dias button{flex:1;padding:9px 0;text-align:center;font-size:13px;letter-spacing:.02em}
 #config .fila.perfiles button i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:-1px}
+
+#config .cogida{
+  display:flex;align-items:center;gap:9px;margin:12px 0 0;padding:11px 13px;
+  border-radius:11px;border:1px solid var(--azul);background:rgba(74,158,255,.12);
+  font:500 13.5px "Inter",sans-serif;color:var(--blanco);
+}
+#config .cogida b{font-weight:600}
+#config .cogida em{font-style:normal;color:var(--suave);font-size:12.5px}
+#config .cogida button{margin-left:auto;padding:6px 11px;border-radius:9px;
+  border:1px solid rgba(255,255,255,.32);background:transparent;color:var(--suave);
+  font:600 12px "Inter",sans-serif;cursor:pointer}
 
 #ctareas .bl{
   display:flex;align-items:center;gap:10px;margin:16px 0 2px;
@@ -311,7 +324,12 @@ h1{
 #ctareas .lin2 i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
 #ctareas .lin2 b{flex:1;font-weight:500;text-align:left;background:none;border:none;color:var(--blanco);
   font:500 14.5px "Inter",sans-serif;cursor:pointer;padding:0}
-#ctareas .lin2 u{color:var(--azul);font:600 12px "Inter",sans-serif;text-decoration:none;cursor:pointer}
+#ctareas .lin2 u{
+  color:var(--suave);font:400 17px/1 "Inter",sans-serif;text-decoration:none;cursor:grab;
+  padding:2px 6px;touch-action:none;user-select:none;
+}
+#ctareas .lin2 u:active{cursor:grabbing;color:var(--azul)}
+#ctareas .lin2.arrastrando{opacity:.45;border-color:var(--azul)}
 #ctareas .lin2 em{font-style:normal;color:#FF9A9A;font-size:15px;cursor:pointer;padding:0 2px}
 #ctareas .nada2{font:400 13.5px "Inter",sans-serif;color:var(--tenue);padding:8px 0}
 
@@ -508,11 +526,38 @@ h1{
 .t.ok .n{color:var(--tenue);text-decoration:line-through;text-decoration-thickness:1.5px}
 .t.ok .v{opacity:1}
 .vacio{color:var(--tenue)}
+#splash{
+  position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;background:#131A33;
+  background-image:linear-gradient(178deg,#4A2570 0%,#332661 30%,#1E2550 65%,#0D1428 100%);
+  transition:opacity .35s ease;
+}
+#splash.fuera{opacity:0;pointer-events:none}
+#splash h1{
+  font:800 clamp(52px,17vw,78px)/.95 "Bricolage Grotesque","Inter",sans-serif;
+  letter-spacing:-.04em;margin:0;color:#fff;text-align:center;
+  text-transform:none;          /* la regla general de h1 los pone en minúscula */
+}
+#splash .puntos{display:flex;gap:9px}
+#splash .puntos i{width:11px;height:11px;border-radius:50%;display:block;
+  animation:latir 1.15s ease-in-out infinite}
+#splash .puntos i:nth-child(1){background:var(--verde)}
+#splash .puntos i:nth-child(2){background:var(--morado);animation-delay:.18s}
+#splash .puntos i:nth-child(3){background:var(--azul);animation-delay:.36s}
+@keyframes latir{
+  0%,100%{transform:translateY(0);opacity:.45}
+  40%{transform:translateY(-7px);opacity:1}
+}
+@media (prefers-reduced-motion:reduce){#splash .puntos i{animation:none;opacity:1}}
+
 #acceso{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;justify-content:center;
   padding:32px 26px;background:#131A33;
   background-image:linear-gradient(178deg,#4A2570 0%,#332661 30%,#1E2550 65%,#0D1428 100%);}
 #acceso.ver{display:flex}
-#acceso h2{font:800 30px/1 "Bricolage Grotesque","Inter",sans-serif;letter-spacing:-.03em;margin:0 0 26px;text-transform:lowercase}
+#acceso h2{
+  font:800 clamp(30px,8.5vw,38px)/1 "Bricolage Grotesque","Inter",sans-serif;
+  letter-spacing:-.03em;margin:0 0 28px;text-transform:none;
+}
 #acceso input{width:100%;margin-bottom:10px;padding:14px 16px;border-radius:13px;
   border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06);
   color:var(--blanco);font:500 16px "Inter",sans-serif}
@@ -599,6 +644,10 @@ h1{
 </style>
 </head>
 <body>
+<div id="splash">
+  <h1>Hoy<br>en Casa</h1>
+  <div class="puntos"><i></i><i></i><i></i></div>
+</div>
 <div id="previa">
   <div class="barra">
     <span>Vista previa · horizontal</span>
@@ -676,8 +725,9 @@ h1{
       <span>Los cambios valen desde</span>
       <span class="fila" id="cdesde"></span>
     </div>
-    <div class="fila" id="cdia"></div>
-    <div class="fila" id="cperfil"></div>
+    <div class="desde"><span>Filtrar por perfil</span><span class="fila" id="cperfil"></span></div>
+    <div class="fila dias" id="cdia"></div>
+    <p class="cogida" id="ccogida" hidden></p>
     <div class="tlista" id="ctareas"></div>
 
     <p id="cfallo"></p>
@@ -782,7 +832,7 @@ h1{
   </div>
 </div>
 <div id="acceso">
-  <h2>hoy en casa</h2>
+  <h2>Hoy en Casa</h2>
   <input id="correo" type="email" inputmode="email" autocomplete="username" placeholder="Correo">
   <input id="clave" type="password" autocomplete="current-password" placeholder="Contraseña">
   <button id="entrar">Entrar</button>
@@ -813,7 +863,7 @@ const SB = supabase.createClient(
 
 // Cambiar en cada publicación. Sirve para detectar que hay versión nueva
 // cuando iOS se queda con la vieja en el acceso directo.
-const VERSION="20260827.2";
+const VERSION="20260828.3";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
@@ -940,7 +990,7 @@ const TEMPS=[["","Todas"],["invierno","Invierno"],["primavera","Primavera"],
 let eFi=0, eMomento="cena", eCat="cena", eModo="plato", eTemp="", eTexto="";
 
 async function abrirElegir(fi,momento){
-  eFi=fi; eMomento=momento; eCat=(momento==="desayuno"?"comida":momento);
+  eFi=fi; eMomento=momento; eCat=momento;
   eModo="plato"; eTemp=""; eTexto="";
   document.getElementById("ebuscar").value="";
   document.getElementById("etitulo").textContent=momento+" del "+DIAS[fi];
@@ -955,7 +1005,8 @@ function pintarElegir(){
   const cc=document.getElementById("ecat");
   cc.hidden=(eModo!=="plato"); cc.innerHTML="";
   if(eModo==="plato"){
-    [["comida","Platos de comida"],["cena","Platos de cena"]].forEach(([v,txt])=>{
+    [["comida","Comida"],["cena","Cena"],["desayuno","Desayuno"],["entrehoras","Entre horas"]]
+      .forEach(([v,txt])=>{
       const b=document.createElement("button");
       b.textContent=txt; b.setAttribute("aria-pressed",v===eCat);
       b.onclick=()=>{eCat=v;pintarElegir();};
@@ -1301,10 +1352,11 @@ async function pintarReparto(){
   });
 
   const dc=document.getElementById("cdia"); dc.innerHTML="";
-  DIAS.forEach((n,i)=>{
+  ["L","M","X","J","V","S","D"].forEach((n,i)=>{
     const b=document.createElement("button");
-    b.textContent=n.slice(0,3);
+    b.textContent=n;
     b.setAttribute("aria-pressed",i===cDia);
+    b.title=DIAS[i];
     b.onclick=()=>{cDia=i;moviendo=null;pintarReparto();};
     dc.appendChild(b);
   });
@@ -1325,6 +1377,16 @@ async function pintarReparto(){
     .eq("dia",cDia+1).is("hasta",null);
   REPARTO=data||[];
 
+  const cg=document.getElementById("ccogida");
+  cg.hidden=!moviendo;
+  if(moviendo){
+    const n=(moviendo.tareas&&moviendo.tareas.nombre)||moviendo.tarea_id;
+    cg.innerHTML='<i style="width:9px;height:9px;border-radius:50%;flex:0 0 auto;display:inline-block;'+
+      'background:'+COLPERF[moviendo.perfil]+'"></i><span>Moviendo <b>'+n+
+      '</b> <em>· toca un + para soltarla</em></span><button>Cancelar</button>';
+    cg.querySelector("button").onclick=()=>{moviendo=null;pintarReparto();};
+  }
+
   const c=document.getElementById("ctareas"); c.innerHTML="";
   BLOQ.forEach(([bv,btxt])=>{
     const cab=document.createElement("div");
@@ -1336,22 +1398,19 @@ async function pintarReparto(){
       .filter(r=>r.bloque===bv && (cPerfil<0||r.perfil===cPerfil))
       .sort((a,b)=>a.orden-b.orden);
 
-    hueco(c,bv,lista.length?lista[0].orden-1:12,"↑");
+    hueco(c,bv,lista.length?lista[0].orden-1:12);
     lista.forEach((r,i)=>{
       const d=document.createElement("div");
       d.className="lin2"+(moviendo&&moviendo.linea===r.linea?" moviendo":"");
       d.innerHTML='<i style="background:'+COLPERF[r.perfil]+'"></i>'+
         "<b>"+(r.tareas&&r.tareas.nombre||r.tarea_id)+"</b>"+
-        "<u>"+(moviendo&&moviendo.linea===r.linea?"cancelar":"mover")+"</u>"+
-        "<em>🗑</em>";
+        '<u title="Arrastrar o tocar para mover">✥</u><em>🗑</em>';
       d.querySelector("b").onclick=()=>abrirTarea(r);
-      d.querySelector("u").onclick=()=>{
-        moviendo=(moviendo&&moviendo.linea===r.linea)?null:r; pintarReparto();
-      };
       d.querySelector("em").onclick=()=>quitarLinea(r);
+      agarrar(d.querySelector("u"), d, r);
       c.appendChild(d);
       const sig=lista[i+1];
-      hueco(c,bv,sig?(r.orden+sig.orden)/2:r.orden+1,"+");
+      hueco(c,bv,sig?(r.orden+sig.orden)/2:r.orden+1);
     });
     if(!lista.length){
       const p=document.createElement("p");
@@ -1362,15 +1421,62 @@ async function pintarReparto(){
 }
 
 // Cada hueco vale para dos cosas: soltar lo que estás moviendo, o añadir algo nuevo.
-function hueco(c,bloque,orden,txt){
+function hueco(c,bloque,orden){
   const b=document.createElement("button");
   b.className="hueco"+(moviendo?" diana":"");
-  b.textContent=moviendo?"↓ soltar aquí":txt;
+  b.textContent="+";
+  b.dataset.bloque=bloque; b.dataset.orden=orden;
   b.onclick=()=>{
     if(moviendo) soltarAqui(bloque,orden);
     else nuevaEnHueco(bloque,orden);
   };
   c.appendChild(b);
+}
+
+// Arrastrar con el dedo o con el ratón. Si no se mueve, cuenta como toque
+// y deja la tarea "cogida" para soltarla tocando un hueco.
+function agarrar(asa, fila, r){
+  asa.addEventListener("pointerdown",(e)=>{
+    e.preventDefault();
+    const x0=e.clientX, y0=e.clientY;
+    let arrastrando=false, ultimo=null;
+    asa.setPointerCapture(e.pointerId);
+
+    const mover=(ev)=>{
+      if(!arrastrando && Math.hypot(ev.clientX-x0, ev.clientY-y0) > 8){
+        arrastrando=true; moviendo=r;
+        fila.classList.add("arrastrando");
+        document.querySelectorAll("#ctareas .hueco").forEach(h=>h.classList.add("diana"));
+      }
+      if(!arrastrando) return;
+      const bajo=document.elementFromPoint(ev.clientX, ev.clientY);
+      const h=bajo && bajo.closest ? bajo.closest(".hueco") : null;
+      if(h!==ultimo){
+        if(ultimo) ultimo.style.outline="";
+        if(h) h.style.outline="2px solid var(--azul)";
+        ultimo=h;
+      }
+    };
+
+    const soltar=(ev)=>{
+      asa.removeEventListener("pointermove",mover);
+      asa.removeEventListener("pointerup",soltar);
+      asa.removeEventListener("pointercancel",soltar);
+      if(ultimo) ultimo.style.outline="";
+      if(!arrastrando){                       // ha sido un toque
+        moviendo=(moviendo&&moviendo.linea===r.linea)?null:r;
+        pintarReparto(); return;
+      }
+      const bajo=document.elementFromPoint(ev.clientX, ev.clientY);
+      const h=bajo && bajo.closest ? bajo.closest(".hueco") : null;
+      if(h) soltarAqui(h.dataset.bloque, Number(h.dataset.orden));
+      else { moviendo=null; pintarReparto(); }
+    };
+
+    asa.addEventListener("pointermove",mover);
+    asa.addEventListener("pointerup",soltar);
+    asa.addEventListener("pointercancel",soltar);
+  });
 }
 
 async function soltarAqui(bloque,orden){
@@ -2096,8 +2202,15 @@ document.getElementById("entrar").onclick=async()=>{
 document.getElementById("clave").addEventListener("keydown",e=>{
   if(e.key==="Enter") document.getElementById("entrar").click();});
 
+function quitarSplash(){
+  const sp=document.getElementById("splash");
+  if(!sp || sp.classList.contains("fuera")) return;
+  sp.classList.add("fuera");
+  setTimeout(()=>sp.remove(),400);
+}
+
 SB.auth.onAuthStateChange(async(_e,sesion)=>{
-  if(!sesion){pantalla.classList.add("ver");marco.hidden=true;return;}
+  if(!sesion){pantalla.classList.add("ver");marco.hidden=true;quitarSplash();return;}
   pantalla.classList.remove("ver"); marco.hidden=false;
 
   await cargarPersonas();
@@ -2121,6 +2234,7 @@ SB.auth.onAuthStateChange(async(_e,sesion)=>{
   document.getElementById("giro").textContent =
     giro ? "Los perfiles rotan el lunes "+giro+"." : "";
   pintar(); escuchar();
+  quitarSplash();
 });
 
 // iOS guarda el acceso directo en caché y puede quedarse con una versión vieja.
@@ -2158,8 +2272,10 @@ document.addEventListener("visibilitychange",()=>{
   document.getElementById("version").textContent="v"+VERSION;
   comprobarVersion();
   const {data}=await SB.auth.getSession();
-  if(!data.session) pantalla.classList.add("ver");
+  if(!data.session){ pantalla.classList.add("ver"); quitarSplash(); }
 })();
+// Por si algo se atasca, el splash no se queda para siempre.
+setTimeout(quitarSplash, 8000);
 </script>
 </body>
 </html>
