@@ -69,6 +69,12 @@ h1{
 .bloque.dia{cursor:pointer}
 .bloque.dia h2{color:var(--blanco);letter-spacing:.1em}
 .compacto .t{padding:10px 13px 10px 17px;margin-bottom:6px}
+.franja{display:flex;align-items:center;gap:8px;margin:8px 0 5px;padding-left:2px}
+.franja b{
+  font:700 9px/1 "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--tenue);
+  text-transform:uppercase;flex:0 0 auto;
+}
+.franja span{flex:1;height:1px;background:rgba(255,255,255,.10)}
 .compacto .n{font-size:15px}
 .fecha em{font-style:normal;color:var(--ambar)}
 #cuenta{white-space:nowrap}
@@ -410,7 +416,17 @@ h1{
   border-radius:20px 20px 0 0;padding:22px 18px 18px;border-top:1px solid rgba(255,255,255,.30)}
 #compra h3{font:800 20px/1.15 "Bricolage Grotesque","Inter",sans-serif;margin:0 0 3px;letter-spacing:-.02em;text-transform:lowercase}
 #compra .expl{font:400 13px/1.45 "Inter",sans-serif;color:var(--suave);margin:0 0 14px}
+#compra .fila{display:flex;gap:6px;margin:0 0 12px}
+#compra .fila button{flex:1;padding:8px 6px;border-radius:99px;border:1px solid rgba(255,255,255,.28);
+  background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer}
+#compra .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
 #clista{flex:1;overflow:auto;margin:0 -4px;padding:0 4px}
+#clista .zona{display:flex;align-items:center;gap:9px;margin:14px 0 6px}
+#clista .zona:first-child{margin-top:0}
+#clista .zona b{font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue)}
+#clista .zona span{flex:1;height:1px;background:var(--borde)}
+#clista .zona em{font-style:normal;font:700 10px "JetBrains Mono",monospace;color:var(--tenue)}
 #clista .it{
   display:flex;align-items:center;gap:11px;padding:11px 12px;margin-bottom:5px;
   border-radius:11px;border:1px solid var(--borde);background:var(--carta);cursor:pointer;
@@ -739,6 +755,7 @@ h1{
   <div class="caja">
     <h3>lista de la compra</h3>
     <p class="expl" id="cexpl"></p>
+    <div class="fila" id="cfiltro"></div>
     <div id="clista"></div>
     <div class="pie3">
       <button id="ccopiar">Copiar</button>
@@ -863,7 +880,7 @@ const SB = supabase.createClient(
 
 // Cambiar en cada publicación. Sirve para detectar que hay versión nueva
 // cuando iOS se queda con la vieja en el acceso directo.
-const VERSION="20260828.3";
+const VERSION="20260828.6";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
@@ -1710,7 +1727,40 @@ async function cambiarCadencia(){
 
 // ---------- lista de la compra ----------
 // Sale sola de los ingredientes troceados. La despensa no cuenta.
-let COMPRA=[], marcados={};
+let COMPRA=[], marcados={}, cFiltro="todo";
+
+// Clasificación exprés por palabras. El orden importa: lo específico primero.
+// Lo que no encaje cae en "Otros", que es honesto y se ve enseguida.
+const ZONAS=[
+ ["Congelados",["congelad"]],
+ ["Conservas y despensa",[
+   "cocidas","cocidos","atún al natural","anchoas","aceitunas","pepinillos",
+   "espárragos blancos","pimientos asados","piquillo","asadillo","maíz",
+   "preparado de ensaladilla","hummus","arroz","pasta","espaguetis","macarrones",
+   "fideos","lazos","salsa de tomate","tomate frito","harina","pan rallado"]],
+ ["Pescadería",[
+   "merluza","bacalao","lubina","dorada","trucha","mero","salmón","sardina",
+   "pescado","sepia","calamar","chipirones","pulpo","gamba","langostino","almeja",
+   "mejillon","mejillón","gulas","palitos de cangrejo","anillas","patas de",
+   "gambon","gambón","marisco","boquerón"]],
+ ["Carnicería",[
+   "pollo","pavo","ternera","cerdo","lomo","babilla","magro","carne","albóndigas",
+   "hamburguesa","salchichas","solomillo","chuleta","contramuslo","muslo","pechuga"]],
+ ["Charcutería",["jamón","york","fiambre"]],
+ ["Lácteos y huevos",["huevo","queso","yogur","leche"]],
+ ["Panadería",["pan","baguette"]],
+ ["Fruta y verdura",[
+   "tomate","cebolla","cebolleta","ajo","ajetes","pimiento","calabacín","berenjena",
+   "zanahoria","patata","lechuga","canónigos","rúcula","ensalada","brotes","pepino",
+   "puerro","judías verdes","guisantes","alcachofa","coliflor","champiñon","champiñón",
+   "setas","shiitake","espárragos","remolacha","limón","manzana","melón","melocotón",
+   "piña","aguacate","nueces","perejil","verduras"]],
+];
+function zonaDe(a){
+  const t=a.toLowerCase();
+  for(const [z,claves] of ZONAS) if(claves.some(k=>t.includes(k))) return z;
+  return "Otros";
+}
 
 async function abrirCompra(){
   const c=document.getElementById("clista");
@@ -1734,15 +1784,44 @@ async function abrirCompra(){
 }
 
 function pintarCompra(){
+  const fc=document.getElementById("cfiltro"); fc.innerHTML="";
+  const hechas=COMPRA.filter(x=>marcados[x]).length;
+  [["todo","Todo",COMPRA.length],
+   ["pendiente","Pendiente",COMPRA.length-hechas],
+   ["comprado","Comprado",hechas]].forEach(([v,txt,n])=>{
+    const b=document.createElement("button");
+    b.textContent=txt+" "+n;
+    b.setAttribute("aria-pressed",v===cFiltro);
+    b.onclick=()=>{cFiltro=v;pintarCompra();};
+    fc.appendChild(b);
+  });
+
   const c=document.getElementById("clista"); c.innerHTML="";
   if(!COMPRA.length){ c.innerHTML='<p class="vacio">No hay menús puestos esta semana.</p>'; return; }
-  COMPRA.forEach(x=>{
-    const d=document.createElement("div");
-    d.className="it"+(marcados[x]?" ok":"");
-    d.innerHTML="<b>✓</b><span>"+x+"</span>";
-    d.onclick=()=>{ marcados[x]?delete marcados[x]:marcados[x]=1; pintarCompra(); };
-    c.appendChild(d);
+
+  const visible=(x)=> cFiltro==="todo" || (cFiltro==="comprado") === !!marcados[x];
+  const porZona={};
+  COMPRA.filter(visible).forEach(x=>{ (porZona[zonaDe(x)]=porZona[zonaDe(x)]||[]).push(x); });
+
+  // Orden de las zonas: el recorrido normal del súper, y "Otros" al final.
+  const ORDEN=["Fruta y verdura","Carnicería","Pescadería","Charcutería",
+               "Lácteos y huevos","Panadería","Congelados","Conservas y despensa","Otros"];
+  let algo=false;
+  ORDEN.forEach(z=>{
+    const l=porZona[z]; if(!l||!l.length) return;
+    algo=true;
+    const h=document.createElement("div");
+    h.className="zona"; h.innerHTML="<b>"+z+"</b><span></span><em>"+l.length+"</em>";
+    c.appendChild(h);
+    l.forEach(x=>{
+      const d=document.createElement("div");
+      d.className="it"+(marcados[x]?" ok":"");
+      d.innerHTML="<b>✓</b><span>"+x+"</span>";
+      d.onclick=()=>{ marcados[x]?delete marcados[x]:marcados[x]=1; pintarCompra(); };
+      c.appendChild(d);
+    });
   });
+  if(!algo) c.innerHTML='<p class="vacio">'+(cFiltro==="comprado"?"Todavía no has comprado nada.":"Todo comprado.")+'</p>';
 }
 
 function copiarCompra(){
@@ -2045,7 +2124,18 @@ function pintarSemana(c){
     if(!lista.length) return;
     cabecera(c,nom,(off===0&&i===hoy)?"hoy":"",lista.filter(t=>t.hecho).length,lista.length,
       ()=>{semana=false;dia=i;pintar();});
-    lista.forEach(t=>tarjeta(i,t,c,null));
+    // Los bloques, con una sola letra: en la semana no caben cuatro cabeceras por día.
+    let ult=-1;
+    lista.forEach(t=>{
+      if(t.bloque!==ult){
+        const f=document.createElement("div");
+        f.className="franja";
+        f.innerHTML="<b>"+BLOQUES[t.bloque]+"</b><span></span>";
+        c.appendChild(f);
+        ult=t.bloque;
+      }
+      tarjeta(i,t,c,null);
+    });
   });
   if(!c.children.length) c.innerHTML='<p class="vacio">'+NOMBRES[quien]+" no tiene turnos esta semana.</p>";
 }
