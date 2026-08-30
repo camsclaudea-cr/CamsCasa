@@ -421,12 +421,14 @@ h1{
   background:transparent;color:var(--suave);font:600 12px "Inter",sans-serif;cursor:pointer}
 #compra .fila button[aria-pressed="true"]{color:var(--blanco);border-color:var(--blanco)}
 #clista{flex:1;overflow:auto;margin:0 -4px;padding:0 4px}
-#clista .zona{display:flex;align-items:center;gap:9px;margin:14px 0 6px}
-#clista .zona:first-child{margin-top:0}
-#clista .zona b{font:700 9.5px/1 "JetBrains Mono",monospace;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--tenue)}
-#clista .zona span{flex:1;height:1px;background:var(--borde)}
-#clista .zona em{font-style:normal;font:700 10px "JetBrains Mono",monospace;color:var(--tenue)}
+#clista .zona{display:flex;align-items:center;gap:10px;margin:20px 0 8px}
+#clista .zona:first-child{margin-top:2px}
+#clista .zona b{
+  font:800 13px/1 "Inter",sans-serif;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--blanco);
+}
+#clista .zona span{flex:1;height:1px;background:rgba(255,255,255,.28)}
+#clista .zona em{font-style:normal;font:700 11px/1 "JetBrains Mono",monospace;color:var(--suave)}
 #clista .it{
   display:flex;align-items:center;gap:11px;padding:11px 12px;margin-bottom:5px;
   border-radius:11px;border:1px solid var(--borde);background:var(--carta);cursor:pointer;
@@ -880,7 +882,7 @@ const SB = supabase.createClient(
 
 // Cambiar en cada publicación. Sirve para detectar que hay versión nueva
 // cuando iOS se queda con la vieja en el acceso directo.
-const VERSION="20260828.6";
+const VERSION="20260828.7";
 
 const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
 const BLOQUES=["General","Mañana","Mediodía","Noche"];
